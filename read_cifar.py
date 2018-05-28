@@ -26,7 +26,7 @@ def main():
 
     data = unpickle(args.data)
     # save test
-    save_img(np.reshape(data[b'data'][0], (32, 32, 3)), data[b'labels'][0])
+    save_img(np.reshape(data[b'data'][0], (32, 32, 3)), str(data[b'labels'][0]))
     print('Save success')
 
     
