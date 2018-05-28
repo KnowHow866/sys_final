@@ -5,6 +5,10 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 import numpy as np
 
+# set matplotlib for linux
+import matplotlib
+matplotlib.use('Agg')
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 def unpickle(path):
@@ -15,7 +19,7 @@ def unpickle(path):
 def save_img(img, label='Default'):
     print('Ready to save image: %s' % label)
     print(img)
-    
+
     plt.title(label)
     plt.imshow(img)
     plt.savefig('images/%s_%s.jpg' % (label, datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
