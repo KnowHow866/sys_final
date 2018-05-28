@@ -35,7 +35,11 @@ def main():
     data = unpickle(args.data)
     # save test
     for idx in range(30):
-        save_img(np.reshape(data[b'data'][idx], (32, 32, 3)), str(data[b'labels'][idx]))
+        img_R = data[b'data'][idx][0:1024].reshape((32, 32))
+        img_G = data[b'data'][idx][1024:2048].reshape((32, 32))
+        img_B = data[b'data'][idx][2048:3072].reshape((32, 32))
+        img = np.dstack((img_R, img_G, img_B))
+        save_img(img, str(data[b'labels'][idx]))
     print('Save success')
 
     
