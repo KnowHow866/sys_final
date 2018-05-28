@@ -2,12 +2,12 @@ import argparse
 import pickle
 import os
 from datetime import datetime
-from matplotlib import pyplot as plt
 import numpy as np
 
 # set matplotlib for linux
 import matplotlib
 matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
