@@ -3,6 +3,7 @@ import pickle
 import os
 from datetime import datetime
 import numpy as np
+import random
 
 # set matplotlib for linux
 import matplotlib
@@ -22,7 +23,7 @@ def save_img(img, label='Default'):
 
     plt.title(label)
     plt.imshow(img)
-    plt.savefig('images/%s_%s.jpg' % (label, datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
+    plt.savefig('images/%s_%s_%s.jpg' % (label, datetime.now().strftime('%Y-%m-%d'), random.randint(0,10000)))
     plt.clf()
     pass
 
@@ -33,7 +34,8 @@ def main():
 
     data = unpickle(args.data)
     # save test
-    save_img(np.reshape(data[b'data'][0], (3, 32, 32)), str(data[b'labels'][0]))
+    for idx in range(30):
+        save_img(np.reshape(data[b'data'][idx], (32, 32, 3)), str(data[b'labels'][idx]))
     print('Save success')
 
     
