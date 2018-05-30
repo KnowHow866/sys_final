@@ -87,9 +87,9 @@ def main():
     model = alexnet()
     model.summary()
 
-    with tf.device('/cpu:0'):
-        model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, steps_per_epoch=32)
-        model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
+    # with tf.device('/cpu:0'):
+    model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, steps_per_epoch=32)
+    model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
 
     
 if __name__ == "__main__":
