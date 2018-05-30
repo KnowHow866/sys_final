@@ -88,6 +88,7 @@ def main():
     model.summary()
 
     # with tf.device('/gpu:0'):
+    print('start training')
     model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, batch_size=32, verbose=1)
     model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
 
