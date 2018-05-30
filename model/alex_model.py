@@ -39,5 +39,8 @@ def alexnet():
         Dense(4096, activation='relu'),
         Dense(1000, activation='softmax')
     ])
+    model.compile(loss='categorical_crossentropy',
+              optimizer='adam',
+              metrics=['accuracy'])
 
     return model
