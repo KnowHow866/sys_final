@@ -28,17 +28,17 @@ def reshape_cifar(picture_arr):
     print(type(picture_arr))
     print(len(picture_arr))
     tmp = []
-    for img_data in picture_arr:
+    for idx in range(len(picture_arr)):
         # print(img_data.shape)
-        img_R = img_data[0:1024].reshape((32, 32))
-        img_G = img_data[1024:2048].reshape((32, 32))
-        img_B = img_data[2048:3072].reshape((32, 32))
+        img_R = picture_arr[idx][0:1024].reshape((32, 32))
+        img_G = picture_arr[idx][1024:2048].reshape((32, 32))
+        img_B = picture_arr[idx][2048:3072].reshape((32, 32))
         img = np.dstack((img_R, img_G, img_B))
-        tmp.append(img)
+        picture_arr[idx] = img
         # print(img.shape)
-    print(type(tmp))
-    print(len(tmp))
-    return tmp
+    print(type(picture_arr))
+    print(len(picture_arr))
+    return picture_arr
 
 def label_map(lable_arr):
     lable_dict = {
