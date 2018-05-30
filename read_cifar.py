@@ -88,7 +88,7 @@ def main():
     model.summary()
 
     with tf.device('/gpu:0'):
-        model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, steps_per_epoch=32)
+        model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, batch_size=32)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
 
     
