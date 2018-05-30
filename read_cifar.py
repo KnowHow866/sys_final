@@ -37,16 +37,16 @@ def reshape_cifar(picture_arr):
 
 def label_map(lable_arr):
     lable_dict = {
-        1: 'airplane',
-        2: 'automobile',
-        3: 'bird',
-        4: 'cat',
-        5: 'deer',
-        6: 'dog',
-        7: 'frog',
-        8: 'horse',
-        9: 'ship',
-        10: 'truck'
+        0: 'airplane',
+        1: 'automobile',
+        2: 'bird',
+        3: 'cat',
+        4: 'deer',
+        5: 'dog',
+        6: 'frog',
+        7: 'horse',
+        8: 'ship',
+        9: 'truck'
     }
     for idx in range(len(lable_arr)):
         lable_arr[idx] = lable_dict.get(lable_arr[idx], lable_arr[idx])
