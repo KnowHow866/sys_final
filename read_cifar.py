@@ -36,7 +36,7 @@ def reshape_cifar(picture_arr):
         img_G = picture_arr[idx][1024:2048].reshape((32, 32))
         img_B = picture_arr[idx][2048:3072].reshape((32, 32))
         img = np.dstack((img_R, img_G, img_B))
-        tmp.append(tim)
+        tmp.append(tmp)
         # print(img.shape)
     tmp = np.array(tmp, 'int32')
     return picture_arr
