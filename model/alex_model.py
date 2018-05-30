@@ -36,7 +36,9 @@ def alexnet():
 
         Flatten(),
         Dense(4096, activation='relu'),
-        Dense(4096, activation='relu'),
+        Dense(2024, activation='relu'),
+        Dense(524, activation='relu'),
+        Dense(128, activation='relu'),
         Dense(10, activation='softmax')
     ])
     model.compile(loss='categorical_crossentropy',

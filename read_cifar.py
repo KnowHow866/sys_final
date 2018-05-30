@@ -31,8 +31,8 @@ def reshape_cifar(picture_arr):
         img_G = img_data[1024:2048].reshape((32, 32))
         img_B = img_data[2048:3072].reshape((32, 32))
         img = np.dstack((img_R, img_G, img_B))
-        print(img.shape)
         tmp.append(img)
+    print(tmp.shape)
     return tmp
 
 def label_map(lable_arr):
@@ -50,7 +50,6 @@ def label_map(lable_arr):
     }
     for idx in range(len(lable_arr)):
         lable_arr[idx] = lable_dict.get(lable_arr[idx], lable_arr[idx])
-    print(lable_arr)
     return lable_arr
     
 
@@ -83,7 +82,7 @@ def main():
     model.summary()
 
     with tf.device('/cpu:0'):
-        model.fit(reshape_cifar(data[b'data']), label_map(data[b'labels']), epochs=10, steps_per_epoch=32)
+        model.fit(reshape_cifar(data[b'data']), data[b'labels'], epochs=10, steps_per_epoch=32)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
 
     
