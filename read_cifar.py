@@ -25,6 +25,7 @@ def unpickle(path):
     return tmp
 
 def reshape_cifar(picture_arr):
+    print(len(picture_arr))
     tmp = []
     for img_data in picture_arr:
         print(img_data.shape)
