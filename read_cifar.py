@@ -32,7 +32,6 @@ def reshape_cifar(picture_arr):
         img_B = img_data[2048:3072].reshape((32, 32))
         img = np.dstack((img_R, img_G, img_B))
         tmp.append(img)
-    print(tmp.shape)
     return tmp
 
 def label_map(lable_arr):
