@@ -50,6 +50,7 @@ def label_map(lable_arr):
     }
     for idx in range(len(lable_arr)):
         lable_arr[idx] = lable_dict.get(lable_arr[idx], lable_arr[idx])
+    print(lable_arr)
     return lable_arr
     
 
