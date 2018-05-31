@@ -1,5 +1,3 @@
-
-import tensorflow as tf
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras.layers import Conv2D
