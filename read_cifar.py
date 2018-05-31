@@ -85,17 +85,6 @@ def main():
     from tensorflow.python.keras.layers import MaxPool2D
     from tensorflow.python.keras.layers import Flatten
 
-    # model = Sequential()
-
-    # model.add(Conv2D(16, 3, 3, input_shape=(32, 32, 3)))
-    # model.add(MaxPool2D(2, 2))
-    # model.add(Flatten())
-    # model.add(Dense(units=32, activation='relu'))
-    # model.add(Dense(units=10, activation='softmax'))
-
-    # model.compile(loss='categorical_crossentropy',
-    #             optimizer='adam',
-    #             metrics=['accuracy'])
     model = alexnet()
     model.summary()
 
@@ -103,7 +92,7 @@ def main():
     x_train = reshape_cifar(data[b'data'][:500])
     y_train = tf.one_hot(data[b'labels'][:500], 10)
 
-    with tf.device('gpu:0')
+    with tf.device('gpu:0'):
         model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
     
