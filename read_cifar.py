@@ -93,7 +93,7 @@ def main():
     y_train = tf.one_hot(data[b'labels'][:500], 10)
 
     with tf.device('gpu:0'):
-        model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
+        model.fit(x_train, y_train, epochs=10, steps_per_epoch=8, verbose=1)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
     
 if __name__ == "__main__":
