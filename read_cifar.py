@@ -86,7 +86,7 @@ def main():
     with tf.device('gpu:0'):
         model = alexnet()
         model.summary()
-        model.fit(x_train, y_train, epochs=500, steps_per_epoch=32, verbose=1)
+        model.fit(x_train, y_train, epochs=500, steps_per_epoch=16, verbose=1)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
     print('Training success, model saved')
     
