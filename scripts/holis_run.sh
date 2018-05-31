@@ -1,2 +1,2 @@
 git pull
-python3 read_cifar.py  -data ../cifar-10-batches-py/data_batch_1
+python3 index.py  -data ../cifar-10-batches-py/data_batch_1
