@@ -83,9 +83,9 @@ def main():
     with tf.device('gpu:0'):
         model = alexnet()
         model.summary()
-        for idx in range(100):
+        for idx in range(50):
             print('Train in batch number: %d' % idx)
-            batch_size = 100
+            batch_size = 200
             x_train = reshape_cifar(data[b'data'][idx * batch_size : (idx + 1) * batch_size])
             y_train = tf.one_hot(data[b'labels'][idx * batch_size : (idx + 1) * batch_size], 10)
             model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
