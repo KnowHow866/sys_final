@@ -79,16 +79,18 @@ def main():
     # data preprocess
     data = unpickle(args.data)
 
-    x_train = reshape_cifar(data[b'data'][:5000])
-    y_train = tf.one_hot(data[b'labels'][:5000], 10)
-
     # training
     with tf.device('gpu:0'):
         model = alexnet()
         model.summary()
-        model.fit(x_train, y_train, epochs=500, steps_per_epoch=16, verbose=1)
+        for idx in range(500):
+            print('Train in batch number: %d' % idx)
+            batch_size = 20
+            x_train = reshape_cifar(data[b'data'][idx * batch_size : (idx + 1) * batch_size])
+            y_train = tf.one_hot(data[b'labels'][idx * batch_size : (idx + 1) * batch_size], 10)
+            model.fit(x_train, y_train, epochs=36, steps_per_epoch=8, verbose=1)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
-    print('Training success, model saved')
+    print('Training success, mdoel saved')
     
 if __name__ == "__main__":
     main()
