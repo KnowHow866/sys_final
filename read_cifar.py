@@ -71,30 +71,24 @@ def save_img(img, label='Default'):
     pass
 
 def main():
+    # set params
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', help='wher data to load')
     args = parser.parse_args()
 
+    # data preprocess
     data = unpickle(args.data)
 
-    # selef made model
-    import tensorflow as tf
-    from tensorflow.python.keras.models import Sequential
-    from tensorflow.python.keras.layers import Dense
-    from tensorflow.python.keras.layers import Conv2D
-    from tensorflow.python.keras.layers import MaxPool2D
-    from tensorflow.python.keras.layers import Flatten
+    x_train = reshape_cifar(data[b'data'][:5000])
+    y_train = tf.one_hot(data[b'labels'][:5000], 10)
 
-    model = alexnet()
-    model.summary()
-
-
-    x_train = reshape_cifar(data[b'data'][:500])
-    y_train = tf.one_hot(data[b'labels'][:500], 10)
-
+    # training
     with tf.device('gpu:0'):
-        model.fit(x_train, y_train, epochs=10, steps_per_epoch=8, verbose=1)
+        model = alexnet()
+        model.summary()
+        model.fit(x_train, y_train, epochs=500, steps_per_epoch=32, verbose=1)
         model.save('%s/model_saved/%s_model.h5' % (dir_path, datetime.now().strftime('%Y-%m-%d')))
+    print('Training success, model saved')
     
 if __name__ == "__main__":
     main()
