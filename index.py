@@ -31,7 +31,7 @@ def main():
     data = pickle_load(args.data)
 
     # training
-    with tf.device('cpu:0'):
+    with tf.device('gpu:0'):
         model = alexnet()
         model.summary()
         for idx in range(50):
