@@ -24,7 +24,7 @@ from model.alex_model import alexnet
 def main():
     # set params
     parser = argparse.ArgumentParser()
-    parser.add_argument('-data', help='wher data to load')
+    parser.add_argument('-data', help='where data to load')
     args = parser.parse_args()
 
     # data preprocess
