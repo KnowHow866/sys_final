@@ -26,7 +26,7 @@ def cifar_img_reshape(picture_arr):
         else:
             tmp = np.append(tmp, np.array([img], np.float32), axis=0)
 
-        if ((idx / len(picture_arr)) * 100) % 5) == 0:
+        if (((idx / len(picture_arr)) * 100) % 5) == 0:
             print('Picture decode: %d percent' % ((idx / len(picture_arr)) * 100) )
 
     return tmp
