@@ -26,15 +26,13 @@ def cifar_img_reshape(picture_arr):
         else:
             tmp = np.append(tmp, np.array([img], np.float32), axis=0)
 
-        if (idx % 50) == 0:
+        if ((idx / len(picture_arr) % 5) == 0:
             print('Picture decode: %d percent' % (idx / len(picture_arr)*100))
 
     return tmp
 
 def cifar_load(data, max_size = None):
     """Load data from cifar"""
-    print(max_size)
-    print(type(max_size))
     x_data = cifar_img_reshape(data[b'data'][:max_size])
     y_data = tf.one_hot(data[b'labels'][:max_size], 10)
     return (x_data, y_data)
