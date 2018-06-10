@@ -1,6 +1,7 @@
 import os
 
 # Training dataset
+data = 'data'
 train_data = "data/train"
 test_data = "data/test"
 
@@ -12,7 +13,7 @@ testdata_max_size = None
 
 def dir_init():
     """To init dirs in setting.py """
-    params = [train_data, test_data]
+    params = [data, train_data, test_data]
     for path in params:
         if not os.path.exists(path):
             os.mkdir(path)
