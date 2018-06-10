@@ -33,6 +33,8 @@ def cifar_img_reshape(picture_arr):
 
 def cifar_load(data, max_size = None):
     """Load data from cifar"""
+    print(max_size)
+    print(type(max_size))
     x_data = cifar_img_reshape(data[b'data'][:max_size])
     y_data = tf.one_hot(data[b'labels'][:max_size], 10)
     return (x_data, y_data)
