@@ -1,6 +1,9 @@
+# 3rd pk
+import tensorflow as tf
 import pickle
 import numpy as np
 
+# native pk
 import random
 from datetime import datetime
 
@@ -11,6 +14,7 @@ def pickle_load(path):
     return tmp
 
 def cifar_img_reshape(picture_arr):
+    """reshape cifar-10 datasets origin data to format (x, 32, 32, 3)"""
     tmp = None
     for idx in range(len(picture_arr)):
         img_R = picture_arr[idx][0:1024].reshape((32, 32))
@@ -26,6 +30,12 @@ def cifar_img_reshape(picture_arr):
             print('Picture decode: %d percent' % (idx / len(picture_arr)*100))
 
     return tmp
+
+def cifar_load(data, max_size = None):
+    """Load data from cifar"""
+    x_data = cifar_img_reshape(data[b'data'][:max_size])
+    y_data = tf.one_hot(data[b'labels'][:max_size], 10)
+    return (x_data, y_data)
 
 def cifar_label_map(lable_arr):
     lable_dict = {
@@ -45,6 +55,7 @@ def cifar_label_map(lable_arr):
     return lable_arr
 
 def save_img(img, label='Default'):
+    """Save image to dir images/"""
     print('Ready to save image: %s' % label)
     print(img)
 
@@ -53,3 +64,4 @@ def save_img(img, label='Default'):
     plt.savefig('images/%s_%s_%s.jpg' % (label, datetime.now().strftime('%Y-%m-%d'), random.randint(0,10000)))
     plt.clf()
     pass
+    

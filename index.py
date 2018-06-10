@@ -2,7 +2,6 @@
 import tensorflow as tf
 import numpy as np
 import argparse
-import pickle
 import h5py
 import numpy as np
 
