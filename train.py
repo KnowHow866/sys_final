@@ -46,6 +46,8 @@ def main():
             for batch_number in range(50):
                 print('Train in batch number: %d' % batch_number)
                 batch_size = 200
+                x_batch = x_train[(batch_number * batch_size) : (batch_number + 1) * batch_size]
+                y_batch = y_train[(batch_number * batch_size) : (batch_number + 1) * batch_size]
                 model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
             model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
         model.save('%s/model/save/%s' % (dir_path, save_as))
