@@ -31,14 +31,15 @@ def main():
     try:
         model = keras.models.load_model(args.model or setting.load_model)
         model.summary()
-    except:
+    except Exception as err:
+        print(err)
         print('No model found to load')
         sys.exit(0)
 
     # if there is testint dataset, evslutate model
     if args.test:
         data = pickle_load(args.test)
-        x_data, y_data = cifar_load(data, int(args.test_max_size))
+        x_data, y_data = cifar_load(data, max_size =int(args.test_max_size))
         print('Start evaluate model')
         evaluate = model.evaluate(x_data, y_data, steps = 10)
         print(evaluate) 
