@@ -39,14 +39,16 @@ def main():
     with tf.device('gpu:0'):
         model = alexnet()
         model.summary()
-        for data in datas:
+        save_as = args.name or '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
+        for data_idx, data in enumerate(datas):
             data = pickle_load(data)
             x_train, y_train = cifar_load(data)
-            for idx in range(50):
-                print('Train in batch number: %d' % idx)
+            for batch_number in range(50):
+                print('Train in batch number: %d' % batch_number)
                 batch_size = 200
                 model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
-        model.save(args.name or '%s/model/save/%s_%s_model.h5' % (dir_path, random.randint(0,10000), datetime.now().strftime('%Y-%m-%d')))
+            model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
+        model.save('%s/model/save/%s' % (dir_path, save_as))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
