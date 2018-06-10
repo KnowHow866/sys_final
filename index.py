@@ -39,7 +39,7 @@ def main():
             x_train = cifar_img_reshape(data[b'data'][idx * batch_size : (idx + 1) * batch_size])
             y_train = tf.one_hot(data[b'labels'][idx * batch_size : (idx + 1) * batch_size], 10)
             model.fit(x_train, y_train, epochs=10, steps_per_epoch=32, verbose=1)
-        model.save('%s/model_saved/%s_%s_model.h5' % (dir_path, random.randint(0,10000), datetime.now().strftime('%Y-%m-%d')))
+        model.save('%s/model/save/%s_%s_model.h5' % (dir_path, random.randint(0,10000), datetime.now().strftime('%Y-%m-%d')))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
