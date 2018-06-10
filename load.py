@@ -22,21 +22,23 @@ def main():
     # set params
     parser = argparse.ArgumentParser()
     parser.add_argument('-model', help='where model to load')
-    parser.add_argument('-testdata', help='use test data to evaluate model')
-    parser.add_argument('-testdata_max_size', help='define max size of test data')
+    parser.add_argument('-test', help='use test data to evaluate model')
+    parser.add_argument('-test_max_size', help='define max size of test data')
     args = parser.parse_args()
+    setting.dir_init()
 
     # summary model model
-    if args.model is None:
-        print('No model path th run')
+    try:
+        model = keras.models.load_model(args.model or setting.load_model)
+        model.summary()
+    except:
+        print('No model found to load')
         sys.exit(0)
-    model = keras.models.load_model(args.model)
-    model.summary()
 
     # if there is testint dataset, evslutate model
-    if args.testdata:
-        data = pickle_load(args.testdata)
-        x_data, y_data = cifar_load(data, int(args.testdata_max_size))
+    if args.test:
+        data = pickle_load(args.test)
+        x_data, y_data = cifar_load(data, int(args.test_max_size))
         print('Start evaluate model')
         evaluate = model.evaluate(x_data, y_data, steps = 10)
         print(evaluate) 
