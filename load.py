@@ -16,6 +16,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
+from core.debug import (log, msg)
 import setting
 
 def main():
