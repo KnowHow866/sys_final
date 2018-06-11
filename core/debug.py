@@ -1,8 +1,7 @@
-# 3rd moddule
-import logging
 
 # native module
 import os
+import logging
 
 def log(msg):
     '''Log format'''
