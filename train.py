@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import h5py
 import numpy as np
+from pympler import asizeof
 
 # native module
 import random
@@ -46,17 +47,21 @@ def main():
         
         # iter each dataset
         for data_idx, data in enumerate(datas):
+            path_label = data
             data = pickle_load(data)
+            print('Stop to measure data in %s' % path_label)
+            print('%s bytes' % asizeof.asizeof(data))
+            wait = input("OK? :")
             # train in batch
-            for batch_number in range(100):
-                print('Train in batch number: %d' % batch_number)
-                batch_size = 100
-                x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
-                teacher.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+        #     for batch_number in range(100):
+        #         print('Train in batch number: %d' % batch_number)
+        #         batch_size = 100
+        #         x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
+        #         teacher.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
 
-            # save point
-            teacher.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
-        teacher.save('%s/model/save/%s' % (dir_path, save_as))
+        #     # save point
+        #     teacher.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
+        # teacher.save('%s/model/save/%s' % (dir_path, save_as))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
