@@ -1,0 +1,19 @@
+
+# train student model
+    # resourceExhausted detection: auto decay batch size
+    # saving structure
+
+    issue:
+        1. not to train, observe how much GPU memory be occupy
+            使用 https://pypi.org/project/Pympler/ (pympler 觀察)
+                list 原型佔用 64 bytes
+                int 與 float 在 list 中佔用約 40 bytes
+                單獨佔用 28 與 32 bytes
+
+# evaluate
+    1. loss
+    2. model size
+
+# pruning
+
+# interrupt & dump compressed model

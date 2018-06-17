@@ -19,7 +19,8 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from model.alex_model import alexnet
+from model.alexnet import Alexnet
+from model.student import Student
 import setting
 
 def main():
@@ -38,23 +39,24 @@ def main():
 
     # training
     with tf.device('gpu:0'):
-        model = alexnet()
-        model.summary()
+        teacher = Alexnet()
+        student = Student()
+        
         save_as = args.name or '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         
         # iter each dataset
         for data_idx, data in enumerate(datas):
             data = pickle_load(data)
             # train in batch
-            for batch_number in range(50):
+            for batch_number in range(100):
                 print('Train in batch number: %d' % batch_number)
-                batch_size = 200
+                batch_size = 100
                 x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
-                model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                teacher.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
 
             # save point
-            model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
-        model.save('%s/model/save/%s' % (dir_path, save_as))
+            teacher.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
+        teacher.save('%s/model/save/%s' % (dir_path, save_as))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
