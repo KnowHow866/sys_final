@@ -4,6 +4,9 @@ import os
 data = 'data'
 train_data = "data/train"
 test_data = "data/test"
+save = 'model/save'
+teacher_save = 'model/save/teacher'
+student_save = 'model/save/student'
 
 # Training setting.............................
 batch_size = 100

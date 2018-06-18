@@ -69,8 +69,10 @@ def main():
                     student.fit(x_batch, predict_batch, epochs=20, steps_per_epoch=128, verbose=1)
 
             # save point
-            teacher.model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
-        teacher.model.save('%s/model/save/%s' % (dir_path, save_as))
+            teacher.model.save('%s/%s/%s_%s' % (dir_path, setting.teacher_save, data_idx, save_as))
+            student.model.save('%s/%s/student_%s_%s' % (dir_path, setting.student_save, data_idx, save_as))
+        teacher.model.save('%s/%s/complete_%s' % (dir_path, setting.teacher_save, save_as))
+        student.model.save('%s/%s/complete_student_%s' % (dir_path, setting.student_save, save_as))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
