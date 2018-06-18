@@ -9,31 +9,32 @@ import time
 import os 
 
 # Alex structure
-def Alexnet():
-    input_shape = (32, 32, 3)
-    model = Sequential([
-        Conv2D(16, (3, 3), input_shape=input_shape, padding='same',
-            activation='relu'),
-        Conv2D(16, (3, 3), activation='relu', padding='same'),
-        Conv2D(16, (3, 3), activation='relu', padding='same'),
-        Conv2D(16, (3, 3), activation='relu', padding='same'),
-        Conv2D(16, (3, 3), activation='relu', padding='same',),
-        MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-        Conv2D(32, (3, 3), activation='relu', padding='same',),
-        Conv2D(32, (3, 3), activation='relu', padding='same',),
-        Conv2D(32, (3, 3), activation='relu', padding='same',),
-        Conv2D(32, (3, 3), activation='relu', padding='same',),
-        Conv2D(32, (3, 3), activation='relu', padding='same',),
-        MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
+class Alexnet():
+    def __init__(self):
+        input_shape = (32, 32, 3)
+        model = Sequential([
+            Conv2D(16, (3, 3), input_shape=input_shape, padding='same',
+                activation='relu'),
+            Conv2D(16, (3, 3), activation='relu', padding='same'),
+            Conv2D(16, (3, 3), activation='relu', padding='same'),
+            Conv2D(16, (3, 3), activation='relu', padding='same'),
+            Conv2D(16, (3, 3), activation='relu', padding='same',),
+            MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
+            Conv2D(32, (3, 3), activation='relu', padding='same',),
+            Conv2D(32, (3, 3), activation='relu', padding='same',),
+            Conv2D(32, (3, 3), activation='relu', padding='same',),
+            Conv2D(32, (3, 3), activation='relu', padding='same',),
+            Conv2D(32, (3, 3), activation='relu', padding='same',),
+            MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
 
-        Flatten(),
-        Dense(128, activation='relu'),
-        Dense(10, activation='softmax')
-    ])
-    model.compile(loss='categorical_crossentropy',
-              optimizer='adam',
-              metrics=['accuracy'])
+            Flatten(),
+            Dense(128, activation='relu'),
+            Dense(10, activation='softmax')
+        ])
+        model.compile(loss='categorical_crossentropy',
+                optimizer='adam',
+                metrics=['accuracy'])
 
-    from pympler import asizeof
-    print('Alexnet \t%s' % asizeof.asizeof(model))
-    return model
+        self.model = model
+
+

@@ -27,6 +27,4 @@ def Student():
               optimizer='adam',
               metrics=['accuracy'])
 
-    from pympler import asizeof
-    print('Student \t%s' % asizeof.asizeof(model))
     return model

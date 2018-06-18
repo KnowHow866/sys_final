@@ -40,7 +40,7 @@ def main():
     # if there is testint dataset, evslutate model
     if args.test:
         data = pickle_load(args.test)
-        x_data, y_data = cifar_load(data, max_size =int(args.test_max_size))
+        x_data, y_data = cifar_load(data, start_idx = 0, end_idx = 100)
         print('Start evaluate model')
         evaluate = model.evaluate(x_data, y_data, steps = 10)
         print(evaluate) 

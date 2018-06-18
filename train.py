@@ -25,12 +25,16 @@ from model.student import Student
 import setting
 
 def main():
-    # set params & inint setting
+    # set params
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', help='Set a data file to load, default to read all datas in data/train ,setting.py(train_data)')
     parser.add_argument('-name', help='save model as name')
     args = parser.parse_args()
+    # init setting
     setting.dir_init()
+    batch_size = setting.batch_size or 100
+    student_follow = setting.student_follow or 20
+    token = setting.token()
 
     # dataset paths
     if args.data:   datas = [args.data]
@@ -42,29 +46,30 @@ def main():
     with tf.device('gpu:0'):
         teacher = Alexnet()
         student = Student()
-        
         save_as = args.name or '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         
-        print(type(teacher))
-        measure(teacher, 'Teacher')
+        measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
         # iter each dataset
         for data_idx, data in enumerate(datas):
             path_label = data
             data = pickle_load(data)
-            measure(data, path_label)
-            wait = input("OK? :")
             # train in batch
-        #     for batch_number in range(100):
-        #         print('Train in batch number: %d' % batch_number)
-        #         batch_size = 100
-        #         x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
-        #         teacher.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+            for batch_number in range(100):
+                print('Train in batch number: %d'.ljust(30, '-') % batch_number)
+                x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
-        #     # save point
-        #     teacher.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
-        # teacher.save('%s/model/save/%s' % (dir_path, save_as))
+                if (token.teacher_turn):
+                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                    
+                if (token.student_turn):
+                    y_batch = teacher.model.predict(x_batch)
+                    student.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+
+            # save point
+            teacher.model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
+        teacher.model.save('%s/model/save/%s' % (dir_path, save_as))
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
