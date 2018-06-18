@@ -60,14 +60,13 @@ def main():
                 print('Train in batch number: %d'.ljust(30, '-') % batch_number)
                 x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
-                teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
-                # if (token.teacher_turn):
-                #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                if (token.teacher_turn):
+                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
                     
-                # if (token.student_turn):
-                #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
-                #     predict_batch = teacher.model.predict(x_batch)
-                #     student.fit(x_batch, predict_batch, epochs=100, steps_per_epoch=32, verbose=1)
+                if (token.student_turn):
+                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
+                    predict_batch = teacher.model.predict(x_batch)
+                    student.fit(x_batch, predict_batch, epochs=10, steps_per_epoch=64, verbose=1)
 
             # save point
             teacher.model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
