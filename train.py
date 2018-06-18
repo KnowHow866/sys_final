@@ -64,8 +64,9 @@ def main():
                     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
                     
                 if (token.student_turn):
-                    y_batch = teacher.model.predict(x_batch)
-                    student.fit(x_batch, y_batch, epochs=100, steps_per_epoch=32, verbose=1)
+                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                    predict_batch = teacher.model.predict(x_batch)
+                    student.fit(x_batch, predict_batch, epochs=100, steps_per_epoch=32, verbose=1)
 
             # save point
             teacher.model.save('%s/model/save/%s_%s' % (dir_path, data_idx, save_as))
