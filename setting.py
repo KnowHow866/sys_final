@@ -23,6 +23,7 @@ class token:
             if self.teacher == 0:
                 self.teacher = -1
                 self.student = self.resource
+            print('teacher turn'.ljust(25, '*'))
             return True
 
     def student_turn(self):
@@ -32,6 +33,7 @@ class token:
             if self.student == 0:
                 self.student = -1
                 self.teacher = self.resource
+            print('stdent turn'.ljust(25, '*'))
             return True
             
 # Load model..................................
