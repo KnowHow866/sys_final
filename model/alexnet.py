@@ -34,4 +34,6 @@ def Alexnet():
               optimizer='adam',
               metrics=['accuracy'])
 
+    from pympler import asizeof
+    print('Alexnet \t%s' % asizeof.asizeof(model))
     return model

@@ -17,7 +17,7 @@ def Student():
     model = Sequential([
         Conv2D(10, (3, 3), input_shape = input_shape, padding = 'same', activation = 'relu'),
         MaxPool2D(pool_size = (2, 2), strides = (2, 2)),
-        Conv2D(10, (3, 3), input_shape = input_shape, padding = 'same', activation = 'relu'),
+        Conv2D(10, (3, 3), padding = 'same', activation = 'relu'),
         MaxPool2D(pool_size = (2, 2), strides = (2, 2)),
         Flatten(),
         Dense(10, activation = 'relu'),
@@ -27,4 +27,6 @@ def Student():
               optimizer='adam',
               metrics=['accuracy'])
 
+    from pympler import asizeof
+    print('Student \t%s' % asizeof.asizeof(model))
     return model

@@ -4,7 +4,6 @@ import numpy as np
 import argparse
 import h5py
 import numpy as np
-from pympler import asizeof
 
 # native module
 import random
@@ -20,6 +19,7 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
+from core.measure import measure
 from model.alexnet import Alexnet
 from model.student import Student
 import setting
@@ -45,12 +45,15 @@ def main():
         
         save_as = args.name or '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         
+        print(type(teacher))
+        measure(teacher, 'Teacher')
+        measure(student, 'Student')
+
         # iter each dataset
         for data_idx, data in enumerate(datas):
             path_label = data
             data = pickle_load(data)
-            print('Stop to measure data in %s' % path_label)
-            print('%s bytes' % asizeof.asizeof(data))
+            measure(data, path_label)
             wait = input("OK? :")
             # train in batch
         #     for batch_number in range(100):

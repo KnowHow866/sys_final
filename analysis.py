@@ -20,11 +20,11 @@ from tensorflow import keras as keras
 K = keras.backend
 # print(dir(Student))
 # print(dir(K))
-for l in student.layers:
-    print('Layer analysis'.ljust(60, '.'))
-    print(l)
-    print(type(l))
-    print(l.weights)
-    print(l.variables)
-    print(l.output)
-    print()
+# for l in student.layers:
+#     print('Layer analysis'.ljust(60, '.'))
+#     print(l)
+#     print(type(l))
+#     print(l.weights)
+#     print(l.variables)
+#     print(l.output)
+#     print()
