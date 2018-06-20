@@ -1,7 +1,8 @@
 
 # train student model
+    ok # saving structure
+    # record measure data when trainin & plot picture
     # resourceExhausted detection: auto decay batch size
-    # saving structure
 
     issue:
         1. not to train, observe how much GPU memory be occupy
