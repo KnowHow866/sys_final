@@ -28,7 +28,6 @@ def main():
     # set params
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', help='Set a data file to load, default to read all datas in data/train ,setting.py(train_data)')
-    parser.add_argument('-name', help='save model as name')
     args = parser.parse_args()
     # init setting
     setting.dir_init()
@@ -44,9 +43,9 @@ def main():
 
     # training
     with tf.device('gpu:0'):
-        teacher = Alexnet()
-        student = Student()
-        save_as = args.name or '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
+        save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
+        teacher = Alexnet(save_path='%s/%s' % (dir_path, setting.teacher_save))
+        student = Student(save_path='%s/%s' % (dir_path, setting.student_save))
         
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
@@ -55,7 +54,7 @@ def main():
         for data_idx, data in enumerate(datas):
             path_label = data
             data = pickle_load(data)
-            # train in batch
+
             for batch_number in range(100):
                 print('Train in batch number: %d'.ljust(30, '-') % batch_number)
                 x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
@@ -69,10 +68,10 @@ def main():
                     student.fit(x_batch, predict_batch, epochs=20, steps_per_epoch=128, verbose=1)
 
             # save point
-            teacher.model.save('%s/%s/%s_%s' % (dir_path, setting.teacher_save, data_idx, save_as))
-            student.model.save('%s/%s/student_%s_%s' % (dir_path, setting.student_save, data_idx, save_as))
-        teacher.model.save('%s/%s/complete_%s' % (dir_path, setting.teacher_save, save_as))
-        student.model.save('%s/%s/complete_student_%s' % (dir_path, setting.student_save, save_as))
+            teacher.save_tmp()
+            student.save_tmp()
+        teacher.save_model()
+        student.save_model()
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
