@@ -45,7 +45,12 @@ load_model = None
 
 def dir_init():
     """To init dirs in setting.py """
-    params = [data, train_data, test_data, teacher_save, student_save]
+    params = [
+        # training path
+        data, train_data, test_data, 
+        # save path
+        save, teacher_save, student_save
+    ]
     for path in params:
         if not os.path.exists(path):
             os.mkdir(path)

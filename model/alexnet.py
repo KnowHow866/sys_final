@@ -7,11 +7,14 @@ from tensorflow.python.keras.layers import MaxPool2D
 from tensorflow.python.keras.layers import Flatten
 from tensorflow.python.keras.layers import Dropout
 
+from tensorflow.python.keras import optimizers
+
 import h5py
 import time
 import os 
 
 # Net stucture
+SGD = optimizers.SGD(lr=0.01, momentum=1, decay=0.0, nesterov=False)
 input_shape = (32, 32, 3)
 model = Sequential([
     Conv2D(16, (3, 3), input_shape=input_shape, padding='same',
@@ -35,7 +38,7 @@ model = Sequential([
     Dense(10, activation='softmax')
 ])
 model.compile(loss='categorical_crossentropy',
-        optimizer='adam',
+        optimizer=SGD,
         metrics=['accuracy'])
 
 class Alexnet(Parent_model):
