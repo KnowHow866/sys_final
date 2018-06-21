@@ -28,22 +28,23 @@ def main():
     args = parser.parse_args()
     setting.dir_init()
 
-    # summary model model
-    try:
-        model = keras.models.load_model(args.model or setting.load_model)
-        model.summary()
-    except Exception as err:
-        print(err)
-        print('No model found to load')
-        sys.exit(0)
+    with tf.device('cpu:1'):
+        # summary model model
+        try:
+            model = keras.models.load_model(args.model or setting.load_model)
+            model.summary()
+        except Exception as err:
+            print(err)
+            print('No model found to load')
+            sys.exit(0)
 
-    # if there is testint dataset, evslutate model
-    if args.test:
-        data = pickle_load(args.test)
-        x_data, y_data = cifar_load(data, start_idx = 0, end_idx = 100)
-        print('Start evaluate model')
-        evaluate = model.evaluate(x_data, y_data, steps = 10)
-        print(evaluate) 
+        # if there is testint dataset, evslutate model
+        if args.test:
+            data = pickle_load(args.test)
+            x_data, y_data = cifar_load(data, start_idx = 0, end_idx = 100)
+            print('Start evaluate model')
+            evaluate = model.evaluate(x_data, y_data, steps = 10)
+            print(evaluate) 
 
 if __name__ == "__main__":
     main()
