@@ -14,7 +14,7 @@ import time
 import os 
 
 # Net stucture
-SGD = optimizers.SGD(lr=0.01, momentum=1, decay=0.0, nesterov=False)
+SGD = optimizers.SGD(lr=0.01, momentum=10, decay=0.0, nesterov=False)
 input_shape = (32, 32, 3)
 model = Sequential([
     Conv2D(16, (3, 3), input_shape=input_shape, padding='same',
