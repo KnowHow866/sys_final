@@ -26,4 +26,4 @@ class Parent_model:
         self.save_times += 1
 
     def save_model(self):
-        self.model.save('%s/model/h5' % self.save_path)
+        self.model.save('%s/model.h5' % self.save_path)

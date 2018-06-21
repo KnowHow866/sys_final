@@ -66,8 +66,6 @@ def main():
                     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
                     predict_batch = teacher.model.predict(x_batch)
                     student.model.fit(x_batch, predict_batch, epochs=20, steps_per_epoch=128, verbose=1)
-
-            # save point
             teacher.save_tmp()
             student.save_tmp()
         teacher.save_model()
