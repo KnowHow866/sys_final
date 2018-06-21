@@ -12,7 +12,9 @@ student_save = 'model/save/student'
 batch_size = 100
 # student_follow: 
 #       After the number of batches teacher trained, student will use teachers output to train
-student_follow = 20 # batches
+student_follow = 10 # batches
+snapshop_default = 20 # batches
+
 class token:
     def __init__(self):
         self.resource = student_follow
@@ -39,6 +41,19 @@ class token:
             print('stdent turn'.ljust(25, '*'))
             return True
             
+class snapshop_token:
+    def __init__(self):
+        self.threshold = snapshop_default
+        self.value = 0
+
+    def check(self, value = 1):
+        if self.value < self.threshold:
+            self.value += value
+            return False
+        else:
+            self.value = 0
+            return True
+
 # Load model..................................
 load_model = None
 

@@ -19,7 +19,7 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from core.measure import measure
+from core.measure import (measure, draw_line_graph)
 from model.alexnet import Alexnet
 from model.student import Student
 import setting
@@ -34,6 +34,7 @@ def main():
     batch_size = setting.batch_size or 100
     student_follow = setting.student_follow or 20
     token = setting.token()
+    snapshop_token = setting.snapshop_token()
 
     # dataset paths
     if args.data:   datas = [args.data]
@@ -59,13 +60,23 @@ def main():
                 print('Train in batch number: %d'.ljust(30, '-') % batch_number)
                 x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
+                # evaluate accuracy, save picture
+                if snapshop_token.check() is True:
+                    teacher.save_record((batch_number, teacher.model.evaluate(x_batch, y_batch, steps = 10)))
+                    student.save_record((batch_number, student.model.evaluate(x_batch, y_batch, steps = 10)))
+                    draw_line_graph([
+                        teacher.format_record('Teacher'),
+                        student.format_record('Student'),
+                    ], 'images')
+
                 if (token.teacher_turn()):
-                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
+                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=63, verbose=1)
                     
                 if (token.student_turn()):
                     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
                     predict_batch = teacher.model.predict(x_batch)
                     student.model.fit(x_batch, predict_batch, epochs=32, steps_per_epoch=128, verbose=1)
+                    
             teacher.save_tmp()
             student.save_tmp()
         teacher.save_model()

@@ -43,8 +43,15 @@ def main():
             data = pickle_load(args.test)
             x_data, y_data = cifar_load(data, start_idx = 0, end_idx = 100)
             print('Start evaluate model')
-            evaluate = model.evaluate(x_data, y_data, steps = 10)
-            print(evaluate) 
+            (loss, accuracy) = model.evaluate(x_data, y_data, steps = 10)
+            print(accuracy) 
+
+            # (accuracy, update_op) = tf.metrics.accuracy(y_data, teacher.model.predict(x_data))
+            # init = (tf.global_variables_initializer(), tf.local_variables_initializer())
+            # with tf.Session() as sess:
+            #             sess.run(init)
+            #             print(sess.run(accuracy))
+            #             print(sess.run(update_op))
 
 if __name__ == "__main__":
     main()

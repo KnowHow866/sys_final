@@ -11,6 +11,7 @@ class Parent_model:
         if save_path is None: raise Exception('Save_path must given')
 
         self.model = model
+        self.accuracy = [] # (batch_number_trained, evaulation)
         self.save_path = save_path
         self.tmp_path = '/'.join([save_path, 'tmp'])
         self.save_times = 0 # tmp save times
@@ -27,3 +28,14 @@ class Parent_model:
 
     def save_model(self):
         self.model.save('%s/model.h5' % self.save_path)
+
+    def save_record(self, record):
+        self.accuracy.append(record)
+
+    def format_record(self, label = None):
+        if label is None: raise Exception('Please give label')
+        return {
+            'lable': label,
+            'x': [item[0] for item in self.accuracy],
+            'y': [item[1][1] for item in self.accuracy]
+        }
