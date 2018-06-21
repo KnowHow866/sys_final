@@ -41,3 +41,4 @@ model.compile(loss='categorical_crossentropy',
 class Alexnet(Parent_model):
     def __init__(self, save_path = None):
         super(Alexnet, self).__init__(model, save_path)
+
