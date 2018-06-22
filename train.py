@@ -52,6 +52,7 @@ def main():
         measure(student, 'Student')
 
         # iter each dataset
+        trained_batches = 0
         for data_idx, data in enumerate(datas):
             path_label = data
             data = pickle_load(data)
@@ -62,8 +63,9 @@ def main():
 
                 # evaluate accuracy, save picture
                 if snapshop_token.check() is True:
-                    teacher.save_record((batch_number, teacher.model.evaluate(x_batch, y_batch, steps = 10)))
-                    student.save_record((batch_number, student.model.evaluate(x_batch, y_batch, steps = 10)))
+                    trained_batches += setting.snapshop_default
+                    teacher.save_record((trained_batches, teacher.model.evaluate(x_batch, y_batch, steps = 10)))
+                    student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
                     draw_line_graph([
                         teacher.format_record('Teacher'),
                         student.format_record('Student'),
