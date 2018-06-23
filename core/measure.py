@@ -13,6 +13,35 @@ def measure(data = None, name = 'NAN'):
         print('\t%s bytes, \t%s KB, \t%s MB' % (size, size / 1024, size / 1048576))
         print()
 
+def find_prediction(predict = None):
+    '''
+    Find prediction from softmax result
+    return example: [0 , 0, 1, 0, 0]
+    '''
+    predict = list(predict)
+    if predict is None: raise Exception('Prediction must given')
+
+    tmp = [0 for _ in range(len(predict))]
+    # set the highest probiblity to 1
+    tmp[predict.index(max(predict))] = 1
+    return tmp
+
+def calculate_accuracy(predictions = None, labels = None):
+    '''
+    retrun accuracy of a list of prediction
+    labels is a list of number
+    '''
+    if predictions is None or labels is None: raise Exception('Params not given enough')
+
+    predictions = [find_prediction(predict) for predict in predictions]
+    predict_correct = 0
+    check_predict = lambda x, y: 1 if x.index(max(x)) == y else 0
+    for idx, label in enumerate(labels):
+        predict_correct += check_predict(predictions[idx], labels[idx])
+
+    return (predict_correct / len(labels)) * 100
+    
+
 def draw_line_graph(datas = None, save_path = None):
     if datas is None: raise Exception('Datas must given')
     if len(datas) > 3: raise Exception('3 data is the max')

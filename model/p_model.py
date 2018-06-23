@@ -37,5 +37,5 @@ class Parent_model:
         return {
             'lable': label,
             'x': [item[0] for item in self.accuracy],
-            'y': [item[1][1] for item in self.accuracy]
+            'y': [item[1] for item in self.accuracy]
         }

@@ -19,7 +19,7 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from core.measure import (measure, draw_line_graph)
+from core.measure import (measure, calculate_accuracy, draw_line_graph)
 from model.alexnet import Alexnet
 from model.student import Student
 import setting
@@ -59,12 +59,12 @@ def main():
 
             for batch_number in range(100):
                 print('Train in batch number: %d'.ljust(30, '-') % batch_number)
-                x_batch, y_batch = cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
+                x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
                 # evaluate accuracy, save picture
                 if snapshop_token.check() is True:
                     trained_batches += setting.snapshop_default
-                    teacher.save_record((trained_batches, teacher.model.evaluate(x_batch, y_batch, steps=32, verbose = 1)))
+                    teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(x_batch), label_list) ))
                     # student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
                     draw_line_graph([
                         teacher.format_record('Teacher'),

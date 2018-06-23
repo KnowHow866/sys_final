@@ -35,7 +35,8 @@ def cifar_load(data, start_idx = None, end_idx = None ,max_size = None):
     """Load data from cifar"""
     x_data = cifar_img_reshape(data[b'data'][start_idx : end_idx or max_size])
     y_data = tf.one_hot(data[b'labels'][start_idx :end_idx or max_size], 10)
-    return (x_data, y_data)
+    label_list = data[b'labels'][start_idx :end_idx or max_size]
+    return (x_data, y_data, label_list)
 
 def cifar_label_map(lable_arr):
     lable_dict = {
