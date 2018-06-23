@@ -19,7 +19,7 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from core.measure import (measure, calculate_accuracy, draw_line_graph)
+from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, find_prediction, draw_line_graph)
 from model.alexnet import Alexnet
 from model.student import Student
 import setting
@@ -62,22 +62,35 @@ def main():
                 x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
                 # evaluate accuracy, save picture
-                if snapshop_token.check() is True:
+                if True:
                     trained_batches += setting.snapshop_default
+
+                    # training evaluate
                     teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(x_batch), label_list) ))
-                    # student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
+                    student.save_record((trained_batches, calculate_accuracy(student.model.predict(x_batch), label_list) ))
                     draw_line_graph([
                         teacher.format_record('Teacher'),
                         student.format_record('Student'),
-                    ], 'images')
+                    ], save_name = 'accuracy.png')
 
-                # if (token.teacher_turn()):
-                teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                    # student learning evaluate
+                    student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
+                        student.model.predict(x_batch),
+                        teacher.model.predict(x_batch)
+                    )
+                    ))
+                    draw_line_graph([student.format_match_teacher('Student')],
+                        title = 'Student prediction match teacher\'s err rate',
+                        save_name = 'student_match_teacher.png'
+                    )
+
+                if (token.teacher_turn()):
+                    teacher.model.fit(x_batch, y_batch, epochs=1, steps_per_epoch=32, verbose=1)
                     
-                # if (token.student_turn()):
-                #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
-                #     predict_batch = teacher.model.predict(x_batch)
-                #     student.model.fit(x_batch, predict_batch, epochs=32, steps_per_epoch=128, verbose=1)
+                if (token.student_turn()):
+                    teacher.model.fit(x_batch, y_batch, epochs=1, steps_per_epoch=64, verbose=1)
+                    predict_batch = teacher.model.predict(x_batch)
+                    student.model.fit(x_batch, predict_batch, epochs=1, steps_per_epoch=128, verbose=1)
                     
             teacher.save_tmp()
             # student.save_tmp()

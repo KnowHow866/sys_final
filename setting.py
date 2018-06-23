@@ -16,7 +16,7 @@ batch_size = 100
 # student_follow: 
 #       After the number of batches teacher trained, student will use teachers output to train
 student_follow = 5 # batches
-snapshop_default = 4 # batches
+snapshop_default = 10 # batches
 
 class token:
     def __init__(self):
