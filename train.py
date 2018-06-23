@@ -64,7 +64,7 @@ def main():
                 # evaluate accuracy, save picture
                 if snapshop_token.check() is True:
                     trained_batches += setting.snapshop_default
-                    teacher.save_record((trained_batches, teacher.model.evaluate(x_batch, y_batch, steps_per_epoch=32, verbose = 1)))
+                    teacher.save_record((trained_batches, teacher.model.evaluate(x_batch, y_batch, steps=32, verbose = 1)))
                     # student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
                     draw_line_graph([
                         teacher.format_record('Teacher'),
