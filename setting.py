@@ -4,9 +4,12 @@ import os
 data = 'data'
 train_data = "data/train"
 test_data = "data/test"
+
+# save path
 save = 'model/save'
 teacher_save = 'model/save/teacher'
 student_save = 'model/save/student'
+images = 'images'
 
 # Training setting.............................
 batch_size = 100
@@ -64,7 +67,7 @@ def dir_init():
         # training path
         data, train_data, test_data, 
         # save path
-        save, teacher_save, student_save
+        save, teacher_save, student_save, images
     ]
     for path in params:
         if not os.path.exists(path):
