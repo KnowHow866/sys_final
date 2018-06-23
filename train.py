@@ -40,7 +40,7 @@ def main():
     if args.data:   datas = [args.data]
     else:
         datas = [os.path.join(setting.train_data, data) for data in os.listdir(setting.train_data)]
-        test_datas = [os.path.join(setting.train_data, data) for data in os.listdir(setting.test_data)]
+        test_datas = [os.path.join(setting.test_data, data) for data in os.listdir(setting.test_data)]
     print(datas)
 
     # training
