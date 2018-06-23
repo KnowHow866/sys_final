@@ -53,49 +53,50 @@ def main():
 
         # iter each dataset
         trained_batches = 0
-        for data_idx, data in enumerate(datas):
-            path_label = data
-            data = pickle_load(data)
+        for _ in range(10):
+            for data_idx, data in enumerate(datas):
+                path_label = data
+                data = pickle_load(data)
 
-            for batch_number in range(100):
-                print('Train in batch number: %d'.ljust(30, '-') % batch_number)
-                x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
+                for batch_number in range(100):
+                    print('Train in batch number: %d'.ljust(30, '-') % batch_number)
+                    x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
-                # evaluate accuracy, save picture
-                if True:
-                    trained_batches += setting.snapshop_default
+                    # evaluate accuracy, save picture
+                    if True:
+                        trained_batches += setting.snapshop_default
 
-                    # training evaluate
-                    teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(x_batch), label_list) ))
-                    student.save_record((trained_batches, calculate_accuracy(student.model.predict(x_batch), label_list) ))
-                    draw_line_graph([
-                        teacher.format_record('Teacher'),
-                        student.format_record('Student'),
-                    ], save_name = 'accuracy.png')
+                        # training evaluate
+                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(x_batch), label_list) ))
+                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(x_batch), label_list) ))
+                        draw_line_graph([
+                            teacher.format_record('Teacher'),
+                            student.format_record('Student'),
+                        ], save_name = 'accuracy.png')
 
-                    # student learning evaluate
-                    student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
-                        student.model.predict(x_batch),
-                        teacher.model.predict(x_batch)
-                    )
-                    ))
-                    draw_line_graph([student.format_match_teacher('Student')],
-                        title = 'Student prediction match teacher\'s err rate',
-                        save_name = 'student_match_teacher.png'
-                    )
+                        # student learning evaluate
+                        student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
+                            student.model.predict(x_batch),
+                            teacher.model.predict(x_batch)
+                        )
+                        ))
+                        draw_line_graph([student.format_match_teacher('Student')],
+                            title = 'Student prediction match teacher\'s err rate',
+                            save_name = 'student_match_teacher.png'
+                        )
 
-                if (token.teacher_turn()):
-                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
-                    
-                if (token.student_turn()):
-                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
-                    predict_batch = teacher.model.predict(x_batch)
-                    student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, verbose=1)
-                    
-            teacher.save_tmp()
-            # student.save_tmp()
-        teacher.save_model()
-        # student.save_model()
+                    if (token.teacher_turn()):
+                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                        
+                    if (token.student_turn()):
+                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
+                        predict_batch = teacher.model.predict(x_batch)
+                        student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, verbose=1)
+                        
+                teacher.save_tmp()
+                student.save_tmp()
+            teacher.save_model()
+            student.save_model()
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
