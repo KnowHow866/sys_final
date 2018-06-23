@@ -33,6 +33,7 @@ def main():
         try:
             model = keras.models.load_model(args.model or setting.load_model)
             model.summary()
+            print(model.metrics_names)
         except Exception as err:
             print(err)
             print('No model found to load')
@@ -44,7 +45,7 @@ def main():
             x_data, y_data = cifar_load(data, start_idx = 0, end_idx = 100)
             print('Start evaluate model')
             (loss, accuracy) = model.evaluate(x_data, y_data, steps = 10)
-            print(accuracy) 
+            print(accuracy)
 
             # (accuracy, update_op) = tf.metrics.accuracy(y_data, teacher.model.predict(x_data))
             # init = (tf.global_variables_initializer(), tf.local_variables_initializer())
