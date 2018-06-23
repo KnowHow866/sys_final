@@ -65,24 +65,24 @@ def main():
                 if snapshop_token.check() is True:
                     trained_batches += setting.snapshop_default
                     teacher.save_record((trained_batches, teacher.model.evaluate(x_batch, y_batch, steps = 10)))
-                    student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
+                    # student.save_record((trained_batches, student.model.evaluate(x_batch, y_batch, steps = 10)))
                     draw_line_graph([
                         teacher.format_record('Teacher'),
                         student.format_record('Student'),
                     ], 'images')
 
-                if (token.teacher_turn()):
-                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=63, verbose=1)
+                # if (token.teacher_turn()):
+                teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
                     
-                if (token.student_turn()):
-                    teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
-                    predict_batch = teacher.model.predict(x_batch)
-                    student.model.fit(x_batch, predict_batch, epochs=32, steps_per_epoch=128, verbose=1)
+                # if (token.student_turn()):
+                #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
+                #     predict_batch = teacher.model.predict(x_batch)
+                #     student.model.fit(x_batch, predict_batch, epochs=32, steps_per_epoch=128, verbose=1)
                     
             teacher.save_tmp()
-            student.save_tmp()
+            # student.save_tmp()
         teacher.save_model()
-        student.save_model()
+        # student.save_model()
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
