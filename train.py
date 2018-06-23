@@ -68,12 +68,12 @@ def main():
                     x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
 
                     # evaluate accuracy, save picture
-                    if True:
+                    if snapshop_token.check() == True:
                         trained_batches += setting.snapshop_default
 
                         # training evaluate
-                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(test_x), test_labels ))
-                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(test_x), test_labels ))
+                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(test_x), test_labels )))
+                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(test_x), test_labels )))
                         draw_line_graph([
                             teacher.format_record('Teacher'),
                             student.format_record('Student'),
