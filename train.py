@@ -40,6 +40,7 @@ def main():
     if args.data:   datas = [args.data]
     else:
         datas = [os.path.join(setting.train_data, data) for data in os.listdir(setting.train_data)]
+        test_datas = [os.path.join(setting.train_data, data) for data in os.listdir(setting.test_data)]
     print(datas)
 
     # training
@@ -50,6 +51,10 @@ def main():
         
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
+
+        # prepare test data set
+        test_data = pickle_load(test_datas[0])
+        test_x, test_y, test_labels = cifar_load(test_data, start_idx=0, end_idx=setting.batch_size)
 
         # iter each dataset
         trained_batches = 0
@@ -67,8 +72,8 @@ def main():
                         trained_batches += setting.snapshop_default
 
                         # training evaluate
-                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(x_batch), label_list) ))
-                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(x_batch), label_list) ))
+                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(test_x), test_labels ))
+                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(test_x), test_labels ))
                         draw_line_graph([
                             teacher.format_record('Teacher'),
                             student.format_record('Student'),
@@ -76,8 +81,8 @@ def main():
 
                         # student learning evaluate
                         student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
-                            student.model.predict(x_batch),
-                            teacher.model.predict(x_batch)
+                            student.model.predict(test_x),
+                            teacher.model.predict(test_x)
                         )
                         ))
                         draw_line_graph([student.format_match_teacher('Student')],
