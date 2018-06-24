@@ -62,12 +62,30 @@ def main():
         for circle in range(2):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
-                if not history:
-                    history = teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
-                else:
-                    history = concat_history(history, teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1))
-                format_plot(history.history['acc'], 'accuracy.png')
+                x_train_slice = x_train[idx*iter_size : (idx + 1)*iter_size]
+                y_train_slice = y_train[idx*iter_size : (idx + 1)*iter_size]
+
+                teacher.save_history(
+                    teacher.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                )
+                format_plot(
+                    [teacher.format_history_by_key('acc')],
+                    save_name = 'teacher_train_accuracy.png',
+                    title = 'Teacher_train_accuracy'
+                )
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
+
+                # student follow to train
+                if setting.student_follow:
+                    teacher_predictions = teacher.model.predict(x_train_slice)
+                    student.save_history(
+                        student.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                    )
+                    format_plot(
+                        [student.format_history_by_key('acc')],
+                        save_name='Student_training_from_teacher.png',
+                        title='Student_training_from_teacher'
+                    )
 
                 teacher.save_model()
                 student.save_model()             

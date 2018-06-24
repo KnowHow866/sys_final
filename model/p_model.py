@@ -12,6 +12,7 @@ class Parent_model:
 
         self.model = model
         self.accuracy = [] # (batch_number_trained, evaulation)
+        self.history = None
         self.save_path = save_path
         self.tmp_path = '/'.join([save_path, 'tmp'])
         self.save_times = 0 # tmp save times
@@ -39,3 +40,21 @@ class Parent_model:
             'x': [item[0] for item in self.accuracy],
             'y': [item[1] for item in self.accuracy]
         }
+
+    def save_history(self, history = None):
+        if history is None: raise Exception('Params not enough')
+
+        if self.history is None:
+            self.history = history
+        else:
+            keys = ['val_loss', 'val_acc', 'loss', 'acc']
+            for key in keys:
+                self.history.history[key] += history.history[key]
+
+    def format_history_by_key(self, key):
+        if key is None: raise Exception('Params not enough')
+        if self.history is None: raise Exception('NO history saved')
+
+        # print('format_history called'.ljust(60, '.'))
+        # print('Now %s len: %s' % (key, len(self.history.history[key])))
+        return self.history.history[key]
