@@ -98,4 +98,5 @@ def format_plot(datas = None,
     plt.ylabel(ylabel)
 
     plt.savefig('images/%s'  % save_name)
+    print('%s has been saved')
     plt.close()

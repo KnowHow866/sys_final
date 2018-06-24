@@ -56,7 +56,7 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        history = teacher.model.fit(x_train[:100], y_train[:100], epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
+        history = teacher.model.fit(x_train[], y_train[], epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
         
         # evaluate accuracy, save picture
         loss, acc = teacher.model.evaluate(x_test, y_test)
@@ -65,7 +65,8 @@ def main():
         print('Acc %s' % acc)
         print(history.history.keys())
 
-        format_plot(history.history['acc'], 'accuarcy.png')
+        print(history.history['acc'])
+        format_plot(history.history['acc'], 'accuracy.png')
             
     teacher.save_model()
     student.save_model()
