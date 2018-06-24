@@ -59,7 +59,7 @@ def main():
         measure(student, 'Student')
 
         history = None
-        for circle in range(10):
+        for circle in range(1):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
                 if not history:
@@ -68,7 +68,7 @@ def main():
                     history = concat_history(history, teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1))
                 format_plot(history.history['acc'], 'accuracy.png')
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
-                
+
                 teacher.save_model()
                 student.save_model()             
 
