@@ -51,12 +51,19 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        teacher.model.fit(x_train, y_train, epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
+        print(len(x_train))
+
+        history = teacher.model.fit(x_train, y_train, epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
         # evaluate accuracy, save picture
         loss, acc = teacher.model.evaluate(x_test, y_test)
         print('Training over'.ljust(120, '-'))
         print('Loss %s' % loss)
         print('Acc %s' % acc)
+        print(history.history.keys())
+
+        import matplotlib.pyplot as plt
+        plt.plot(history.history['acc'])
+        plt.show()
 
         # if True:
         #     trained_batches += setting.snapshop_default
