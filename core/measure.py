@@ -87,7 +87,7 @@ def draw_line_graph(datas = None,
 def format_plot(datas = None,
     save_name = None, 
     title = 'Training accuarcy',
-    xlabel = 'Batch numbers',
+    xlabel = 'Epochs',
     ylabel = 'Accuracy'
     ):
     if datas is None or save_name is None: raise Exception('Parmas is not enough')
@@ -98,5 +98,4 @@ def format_plot(datas = None,
     plt.ylabel(ylabel)
 
     plt.savefig('images/%s'  % save_name)
-    print('%s has been saved')
     plt.close()
