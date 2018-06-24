@@ -38,9 +38,9 @@ model = Sequential([
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
 
     Flatten(),
-    Dropout(0.3, noise_shape=None, seed=None),
-    Dense(512, activation='relu'),
-    Dense(128, activation='relu'),
+    Dropout(0.5, noise_shape=None, seed=None),
+    Dense(1024, activation='relu'),
+    Dropout(0.5, noise_shape=None, seed=None),
     Dense(10, activation='softmax')
 ])
 model.compile(loss='categorical_crossentropy',
