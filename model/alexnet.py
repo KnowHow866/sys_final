@@ -25,6 +25,10 @@ model = Sequential([
     Dropout(0.2, noise_shape=None, seed=None),
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
 
+    Conv2D(128, (3, 3), activation='relu', padding='same'),
+    Dropout(0.2, noise_shape=None, seed=None),
+    MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
+
     Flatten(),
     Dropout(0.2, noise_shape=None, seed=None),
     Dense(1024, activation='relu'),
