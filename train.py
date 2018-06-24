@@ -59,7 +59,7 @@ def main():
         measure(student, 'Student')
 
         history = None
-        for circle in range(1):
+        for circle in range(2):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
                 if not history:
@@ -72,15 +72,11 @@ def main():
                 teacher.save_model()
                 student.save_model()             
 
-        # evaluate accuracy, save picture
-        loss, acc = teacher.model.evaluate(x_test, y_test)
-        print('Training over'.ljust(120, '-'))
-        print('Loss %s' % loss)
-        print('Acc %s' % acc)
-        print(history.history.keys())
-
-        print(history.history['acc'])
-        format_plot(history.history['acc'], 'accuracy.png')
+            # evaluate accuracy, save picture
+            loss, acc = teacher.model.evaluate(x_test, y_test)
+            print('Training over'.ljust(120, '-'))
+            print('Loss %s' % loss)
+            print('Acc %s' % acc)
             
     print('Training success, mdoel saved')
     
