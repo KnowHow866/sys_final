@@ -99,3 +99,12 @@ def format_plot(datas = None,
 
     plt.savefig('images/%s'  % save_name)
     plt.close()
+
+def concat_history(his_a = None, his_b = None):
+    if his_a is None or his_b is None: raise Exception('Parmas is not enough')
+
+    keys = ['val_loss', 'val_acc', 'loss', 'acc']
+    for key in keys:
+        his_a.history[key] += his_b.history[key]
+
+    return his_a

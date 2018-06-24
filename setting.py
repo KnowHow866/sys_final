@@ -12,11 +12,12 @@ student_save = 'model/save/student'
 images = 'images'
 
 # Training setting.............................
-batch_size = 100
+batch_size = 16
+slice_number = 100
 # student_follow: 
 #       After the number of batches teacher trained, student will use teachers output to train
-student_follow = 5 # batches
-snapshop_default = 10 # batches
+student_follow = 5 
+snapshop_default = 10 
 
 class token:
     def __init__(self):

@@ -21,7 +21,7 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, find_prediction, draw_line_graph, format_plot)
+from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, find_prediction, draw_line_graph, format_plot, concat_history)
 from model.alexnet import Alexnet
 from model.student import Student
 import setting
@@ -56,8 +56,17 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        history = teacher.model.fit(x_train, y_train, epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
-        
+        history = None
+        for circle in range(10):
+            iter_size = int(len(x_train) / setting.slice_number)
+            for idx in range(setting.slice_number):
+                if not history:
+                    history = teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                else:
+                    history = concat_history(history, teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1))
+                format_plot(history.history['acc'], 'accuracy.png')
+                print('Iter (%s, %s)' % (circle, idx))                
+
         # evaluate accuracy, save picture
         loss, acc = teacher.model.evaluate(x_test, y_test)
         print('Training over'.ljust(120, '-'))
