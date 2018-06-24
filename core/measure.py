@@ -95,6 +95,8 @@ def format_plot(
     if datas is None or save_name is None: raise Exception('Parmas is not enough')
 
     for data in datas:
+        print('Plot data'.ljust(45, '@'))
+        print(data)
         plt.plot(data)
     plt.legend(legends, loc = 'best')
 

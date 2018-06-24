@@ -51,10 +51,12 @@ class Parent_model:
             for key in keys:
                 self.history.history[key] += history.history[key]
 
+
     def format_history_by_key(self, key):
         if key is None: raise Exception('Params not enough')
         if self.history is None: raise Exception('NO history saved')
 
         # print('format_history called'.ljust(60, '.'))
         # print('Now %s len: %s' % (key, len(self.history.history[key])))
+        print(self.history.history[key])
         return self.history.history[key]

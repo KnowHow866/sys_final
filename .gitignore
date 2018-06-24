@@ -2,3 +2,4 @@ env
 model/save/*
 data
 images
+tmp

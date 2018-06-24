@@ -54,11 +54,11 @@ def main():
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         teacher = Alexnet(save_path='%s/%s' % (dir_path, setting.teacher_save))
         student = Student(save_path='%s/%s' % (dir_path, setting.student_save))
+        Evaluate_record = setting.Evaluate_record
         
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        history = None
         for circle in range(2):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
@@ -70,8 +70,8 @@ def main():
                 )
                 format_plot(
                     [teacher.format_history_by_key('acc')],
-                    save_name = 'teacher_train_accuracy.png',
-                    title = 'Teacher_train_accuracy'
+                    save_name='teacher_train_accuracy.png',
+                    title='Teacher_train_accuracy'
                 )
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
 
@@ -86,6 +86,24 @@ def main():
                         save_name='Student_training_from_teacher.png',
                         title='Student_training_from_teacher'
                     )
+
+                # evaluate
+                _, t_acc = teacher.model.evaluate(x_test, y_test)
+                _, s_acc = student.model.evaluate(x_test, y_test)
+                Evaluate_record['t_acc'].append(t_acc)
+                Evaluate_record['s_acc'].append(s_acc)
+
+                print("Acc".ljust(30, '#'))
+                print(t_acc)
+                print(s_acc)
+
+                format_plot(
+                    [Evaluate_record['t_acc'], Evaluate_record['s_acc']],
+                    legends=['Teacher', 'Student'],
+                    save_name='Evaluate.png',
+                    title='Teacher, Student to test data accuracy',
+                    xlabel='Slice No'
+                )
 
                 teacher.save_model()
                 student.save_model()             

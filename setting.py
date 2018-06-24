@@ -59,6 +59,11 @@ class snapshop_token:
             self.value = 0
             return True
 
+Evaluate_record = {
+    't_acc': [],
+    's_acc': []
+}
+
 # Load model..................................
 load_model = None
 
