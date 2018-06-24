@@ -32,15 +32,15 @@ model = Sequential([
     # Conv2D(32, (3, 3), activation='relu', padding='same',),
     # Conv2D(32, (3, 3), activation='relu', padding='same',),
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-    Dropout(0.5, noise_shape=None, seed=None),
+    Dropout(0.2, noise_shape=None, seed=None),
     Conv2D(64, (3, 3), activation='relu', padding='same',),
     Conv2D(64, (3, 3), activation='relu', padding='same',),
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
 
     Flatten(),
-    Dropout(0.5, noise_shape=None, seed=None),
+    Dropout(0.2, noise_shape=None, seed=None),
     Dense(1024, activation='relu'),
-    Dropout(0.5, noise_shape=None, seed=None),
+    Dropout(0.2, noise_shape=None, seed=None),
     Dense(10, activation='softmax')
 ])
 model.compile(loss='categorical_crossentropy',
