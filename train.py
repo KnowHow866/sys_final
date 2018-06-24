@@ -54,6 +54,7 @@ def main():
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         teacher = Alexnet(save_path='%s/%s' % (dir_path, setting.teacher_save))
         student = Student(save_path='%s/%s' % (dir_path, setting.student_save))
+        student_second = Student(save_path='%s/%s' % (dir_path, setting.student_save_second))
         Evaluate_record = setting.Evaluate_record
         
         measure(teacher.model, 'Teacher')
@@ -113,6 +114,19 @@ def main():
             print('Training over'.ljust(120, '-'))
             print('Loss %s' % loss)
             print('Acc %s' % acc)
+
+        # training student_second after teacher is done
+        teacher_predictions = teacher.model.predict(x_train)
+        student_second.save_history(
+            student_second.model.fit(x_train, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+        )
+        _, s2_acc = student_second.model.evaluate(y_train, y_test)
+        format_plot(
+            [student_second.format_history_by_key('acc')],
+            save_name='Second_student_train_accuracy.png',
+            title='Second-student_train_accuracy, TestData Acc: %s' % s2_acc
+        )
+        
             
     print('Training success, mdoel saved')
     

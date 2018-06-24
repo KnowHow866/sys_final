@@ -43,6 +43,7 @@ def calculate_accuracy(predictions = None, labels = None):
         predict_correct += check_predict(predictions[idx], labels[idx])
 
     return (predict_correct / len(labels)) * 100
+
     
 def calculate_prediction_match_rate(student_pres = None, teacher_pres = None):
     if student_pres is None or teacher_pres is None: raise Exception('Params not enough')
@@ -95,8 +96,6 @@ def format_plot(
     if datas is None or save_name is None: raise Exception('Parmas is not enough')
 
     for data in datas:
-        print('Plot data'.ljust(45, '@'))
-        print(data)
         plt.plot(data)
     plt.legend(legends, loc = 'best')
 

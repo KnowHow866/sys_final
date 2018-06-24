@@ -9,6 +9,7 @@ test_data = "data/test"
 save = 'model/save'
 teacher_save = 'model/save/teacher'
 student_save = 'model/save/student'
+student_save_second = 'model/save/student_trained_after_all'
 images = 'images'
 
 # Training setting.............................
@@ -19,6 +20,9 @@ student_follow = True
 #       After the number of batches teacher trained, student will use teachers output to train
 student_follow = 5 
 snapshop_default = 10 
+
+# pruning
+pruning_load_model = os.path.join(student_save, 'model.h5')
 
 class token:
     def __init__(self):
