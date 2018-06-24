@@ -56,7 +56,7 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        history = teacher.model.fit(x_train[], y_train[], epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
+        history = teacher.model.fit(x_train, y_train, epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
         
         # evaluate accuracy, save picture
         loss, acc = teacher.model.evaluate(x_test, y_test)
