@@ -98,7 +98,7 @@ def main():
                     format_plot(
                         [student_second.format_history_by_key('acc')],
                         save_name='Second_student_training_from_teacher.png',
-                        title='Second_student_training_from_teacher
+                        title='Second_student_training_from_teacher'
                     )
 
                 # evaluate
