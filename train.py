@@ -42,6 +42,11 @@ def main():
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
 
+    def plot(_data):
+        import matplotlib.pyplot as plt
+        plt.plot(_data)
+        plt.show()
+
     # training
     with tf.device('gpu:0'):
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
@@ -61,9 +66,7 @@ def main():
         print('Acc %s' % acc)
         print(history.history.keys())
 
-        import matplotlib.pyplot as plt
-        plt.plot(history.history['acc'])
-        plt.show()
+        plot(history.history['acc'])
 
         # if True:
         #     trained_batches += setting.snapshop_default
