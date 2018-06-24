@@ -10,6 +10,7 @@ save = 'model/save'
 teacher_save = 'model/save/teacher'
 student_save = 'model/save/student'
 student_save_second = 'model/save/student_trained_after_all'
+student_save_zero = 'model/save/student_just)student'
 images = 'images'
 
 # Training setting.............................
@@ -65,6 +66,7 @@ class snapshop_token:
 
 Evaluate_record = {
     't_acc': [],
+    's0_acc': [],
     's_acc': [],
     's2_acc': []
 }
@@ -79,7 +81,7 @@ def dir_init():
         # training path
         data, train_data, test_data, 
         # save path
-        save, teacher_save, student_save, images
+        save, teacher_save, student_save, images, student_save_second, student_save_zero
     ]
     for path in params:
         if not os.path.exists(path):

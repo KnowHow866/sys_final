@@ -53,6 +53,7 @@ def main():
     with tf.device('gpu:0'):
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         teacher = Alexnet(save_path='%s/%s' % (dir_path, setting.teacher_save))
+        student_zero = Student(save_path='%s/%s' % (dir_path, setting.student_save_zero))
         student = Student(save_path='%s/%s' % (dir_path, setting.student_save))
         student_second = Student(save_path='%s/%s' % (dir_path, setting.student_save_second))
         Evaluate_record = setting.Evaluate_record
@@ -76,6 +77,16 @@ def main():
                         save_name='Teacher_train_accuracy.png',
                         title='Teacher_train_accuracy'
                     )
+                # student model but no teacher
+                    student_zero.save_history(
+                        student_zero..model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                    )
+                    format_plot(
+                        [student_zero.format_history_by_key('acc')],
+                        save_name='Student_zero_train_accuracy.png',
+                        title='Student_zero_train_accuracy'
+                    )
+        
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
 
                 teacher_predictions = teacher.model.predict(x_train_slice)
@@ -103,17 +114,19 @@ def main():
 
                 # evaluate
                 _, t_acc = teacher.model.evaluate(x_test, y_test)
+                _, s0_acc = student_zero.model.evaluate(x_test, y_test)
                 _, s_acc = student.model.evaluate(x_test, y_test)
                 _, s2_acc = student_second.model.evaluate(x_test, y_test)
 
                 Evaluate_record['t_acc'].append(t_acc)
+                Evaluate_record['s0_acc'].append(s0_acc)
                 Evaluate_record['s_acc'].append(s_acc)
                 if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
                 else: Evaluate_record['s2_acc'].append(None)
 
                 format_plot(
-                    [Evaluate_record['t_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
-                    legends=['Teacher', 'Student', 'Student_second'],
+                    [Evaluate_record['t_acc'], Evaluate_record['s0_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
+                    legends=['Teacher', 'Student_zero', 'Student', 'Student_second'],
                     save_name='Evaluate.png',
                     title='Teacher, Student to test data accuracy',
                     xlabel='Slice No'
@@ -121,6 +134,8 @@ def main():
 
                 teacher.save_model()
                 student.save_model()             
+                student_zero.save_model()             
+                student_second.save_model()             
 
             # evaluate accuracy, save picture
             loss, acc = teacher.model.evaluate(x_test, y_test)
