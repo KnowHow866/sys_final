@@ -86,7 +86,7 @@ def main():
                         )
                         ))
                         draw_line_graph([student.format_match_teacher('Student')],
-                            title = 'Student prediction match teacher\'s err rate',
+                            title = 'Student prediction match teacher\'s accuracy',
                             save_name = 'student_match_teacher.png'
                         )
 
