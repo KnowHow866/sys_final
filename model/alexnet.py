@@ -19,7 +19,7 @@ model = Sequential([
     Conv2D(16, (3, 3), input_shape=input_shape, padding='same',
         activation='relu'),
     Conv2D(16, (3, 3), activation='relu', padding='same'),
-     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
+    MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
     Conv2D(16, (3, 3), activation='relu', padding='same'),
     Conv2D(16, (3, 3), activation='relu', padding='same'),
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
