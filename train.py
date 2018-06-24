@@ -60,25 +60,27 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        for circle in range(2):
+        for circle in range(5):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
                 x_train_slice = x_train[idx*iter_size : (idx + 1)*iter_size]
                 y_train_slice = y_train[idx*iter_size : (idx + 1)*iter_size]
 
-                teacher.save_history(
-                    teacher.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
-                )
-                format_plot(
-                    [teacher.format_history_by_key('acc')],
-                    save_name='Teacher_train_accuracy.png',
-                    title='Teacher_train_accuracy'
-                )
+                # teacher
+                if circle < 2:
+                    teacher.save_history(
+                        teacher.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                    )
+                    format_plot(
+                        [teacher.format_history_by_key('acc')],
+                        save_name='Teacher_train_accuracy.png',
+                        title='Teacher_train_accuracy'
+                    )
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
 
+                teacher_predictions = teacher.model.predict(x_train_slice)
                 # student follow to train
-                if setting.student_follow:
-                    teacher_predictions = teacher.model.predict(x_train_slice)
+                if setting.student_follow and circle < 3:
                     student.save_history(
                         student.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
@@ -88,19 +90,30 @@ def main():
                         title='Student_training_from_teacher'
                     )
 
+                # student second
+                if circle > 1:
+                    student_second.save_history(
+                        student_second.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                    )
+                    format_plot(
+                        [student_second.format_history_by_key('acc')],
+                        save_name='Second_student_training_from_teacher.png',
+                        title='Second_student_training_from_teacher
+                    )
+
                 # evaluate
                 _, t_acc = teacher.model.evaluate(x_test, y_test)
                 _, s_acc = student.model.evaluate(x_test, y_test)
+                _, s2_acc = student_second.model.evaluate(x_test, y_test)
+
                 Evaluate_record['t_acc'].append(t_acc)
                 Evaluate_record['s_acc'].append(s_acc)
-
-                print("Acc".ljust(30, '#'))
-                print(t_acc)
-                print(s_acc)
+                if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
+                else: Evaluate_record['s2_acc'].append(None)
 
                 format_plot(
-                    [Evaluate_record['t_acc'], Evaluate_record['s_acc']],
-                    legends=['Teacher', 'Student'],
+                    [Evaluate_record['t_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
+                    legends=['Teacher', 'Student', 'Student_second'],
                     save_name='Evaluate.png',
                     title='Teacher, Student to test data accuracy',
                     xlabel='Slice No'
@@ -116,16 +129,16 @@ def main():
             print('Acc %s' % acc)
 
         # training student_second after teacher is done
-        teacher_predictions = teacher.model.predict(x_train)
-        student_second.save_history(
-            student_second.model.fit(x_train, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
-        )
-        _, s2_acc = student_second.model.evaluate(y_train, y_test)
-        format_plot(
-            [student_second.format_history_by_key('acc')],
-            save_name='Second_student_train_accuracy.png',
-            title='Second-student_train_accuracy, TestData Acc: %s' % s2_acc
-        )
+        # teacher_predictions = teacher.model.predict(x_train)
+        # student_second.save_history(
+        #     student_second.model.fit(x_train, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+        # )
+        # _, s2_acc = student_second.model.evaluate(y_train, y_test)
+        # format_plot(
+        #     [student_second.format_history_by_key('acc')],
+        #     save_name='Second_student_train_accuracy.png',
+        #     title='Second_student_train_accuracy, TestData Acc: %s' % s2_acc
+        # )
         
             
     print('Training success, mdoel saved')

@@ -65,7 +65,8 @@ class snapshop_token:
 
 Evaluate_record = {
     't_acc': [],
-    's_acc': []
+    's_acc': [],
+    's2_acc': []
 }
 
 # Load model..................................
