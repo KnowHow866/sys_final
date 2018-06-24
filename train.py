@@ -91,12 +91,12 @@ def main():
                         )
 
                     if (token.teacher_turn()):
-                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, verbose=1)
+                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, validation_split = 0.1, verbose=1)
                         
                     if (token.student_turn()):
-                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, verbose=1)
+                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, validation_split = 0.1, verbose=1)
                         predict_batch = teacher.model.predict(x_batch)
-                        student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, verbose=1)
+                        student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, validation_split = 0.1, verbose=1)
                         
                 teacher.save_tmp()
                 student.save_tmp()
