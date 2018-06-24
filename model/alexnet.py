@@ -38,7 +38,7 @@ model = Sequential([
     MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
 
     Flatten(),
-    Dropout(0.8, noise_shape=None, seed=None),
+    Dropout(0.3, noise_shape=None, seed=None),
     Dense(412, activation='relu'),
     Dense(10, activation='softmax')
 ])
