@@ -67,7 +67,10 @@ def main():
                 else:
                     history = concat_history(history, teacher.model.fit(x_train[idx*iter_size : (idx + 1)*iter_size], y_train[idx*iter_size : (idx + 1)*iter_size], epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1))
                 format_plot(history.history['acc'], 'accuracy.png')
-                print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))                
+                print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
+                
+                teacher.save_model()
+                student.save_model()             
 
         # evaluate accuracy, save picture
         loss, acc = teacher.model.evaluate(x_test, y_test)
@@ -79,8 +82,6 @@ def main():
         print(history.history['acc'])
         format_plot(history.history['acc'], 'accuracy.png')
             
-    teacher.save_model()
-    student.save_model()
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
