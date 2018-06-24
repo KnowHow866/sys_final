@@ -4,6 +4,8 @@ import numpy as np
 import argparse
 import h5py
 import numpy as np
+from tensorflow.python.keras.datasets import cifar10
+from tensorflow.python.keras.utils import to_categorical
 
 # native module
 import random
@@ -27,7 +29,6 @@ import setting
 def main():
     # set params
     parser = argparse.ArgumentParser()
-    parser.add_argument('-data', help='Set a data file to load, default to read all datas in data/train ,setting.py(train_data)')
     args = parser.parse_args()
     # init setting
     setting.dir_init()
@@ -37,11 +38,9 @@ def main():
     snapshop_token = setting.snapshop_token()
 
     # dataset paths
-    if args.data:   datas = [args.data]
-    else:
-        datas = [os.path.join(setting.train_data, data) for data in os.listdir(setting.train_data)]
-        test_datas = [os.path.join(setting.test_data, data) for data in os.listdir(setting.test_data)]
-    print(datas)
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    y_train = to_categorical(y_train)
+    y_test = to_categorical(y_test)
 
     # training
     with tf.device('gpu:0'):
@@ -52,56 +51,45 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        # prepare test data set
-        test_data = pickle_load(test_datas[0])
-        test_x, test_y, test_labels = cifar_load(test_data, start_idx=0, end_idx=setting.batch_size)
+        teacher.model.fit(x_train, y_train, epochs=10, batch_size=16, validation_split = 0.1, verbose=1)
+        # evaluate accuracy, save picture
+        loss, acc = teacher.model.evaluate(x_test, y_test)
+        print('Training over'.ljust(120, '-'))
+        print('Loss %s' % loss)
+        print('Acc %s' % acc)
 
-        # iter each dataset
-        trained_batches = 0
-        for _ in range(10):
-            for data_idx, data in enumerate(datas):
-                path_label = data
-                data = pickle_load(data)
+        # if True:
+        #     trained_batches += setting.snapshop_default
 
-                for batch_number in range(100):
-                    print('Train in batch number: %d'.ljust(30, '-') % batch_number)
-                    x_batch, y_batch, label_list= cifar_load(data, start_idx = (batch_number * batch_size), end_idx = (batch_number + 1) * batch_size)
+        #     # training evaluate
+        #     teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(test_x), test_labels )))
+        #     student.save_record((trained_batches, calculate_accuracy(student.model.predict(test_x), test_labels )))
+        #     draw_line_graph([
+        #         teacher.format_record('Teacher'),
+        #         student.format_record('Student'),
+        #     ], save_name = 'accuracy.png')
 
-                    # evaluate accuracy, save picture
-                    if snapshop_token.check() == True:
-                        trained_batches += setting.snapshop_default
+        #     # student learning evaluate
+        #     student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
+        #         student.model.predict(test_x),
+        #         teacher.model.predict(test_x)
+        #     )
+        #     ))
+        #     draw_line_graph([student.format_match_teacher('Student')],
+        #         title = 'Student prediction match teacher\'s accuracy',
+        #         save_name = 'student_match_teacher.png'
+        #     )
 
-                        # training evaluate
-                        teacher.save_record((trained_batches, calculate_accuracy(teacher.model.predict(test_x), test_labels )))
-                        student.save_record((trained_batches, calculate_accuracy(student.model.predict(test_x), test_labels )))
-                        draw_line_graph([
-                            teacher.format_record('Teacher'),
-                            student.format_record('Student'),
-                        ], save_name = 'accuracy.png')
-
-                        # student learning evaluate
-                        student.save_match_teacher((trained_batches, calculate_prediction_match_rate(
-                            student.model.predict(test_x),
-                            teacher.model.predict(test_x)
-                        )
-                        ))
-                        draw_line_graph([student.format_match_teacher('Student')],
-                            title = 'Student prediction match teacher\'s accuracy',
-                            save_name = 'student_match_teacher.png'
-                        )
-
-                    if (token.teacher_turn()):
-                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, validation_split = 0.1, verbose=1)
-                        
-                    if (token.student_turn()):
-                        teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, validation_split = 0.1, verbose=1)
-                        predict_batch = teacher.model.predict(x_batch)
-                        student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, validation_split = 0.1, verbose=1)
-                        
-                teacher.save_tmp()
-                student.save_tmp()
-            teacher.save_model()
-            student.save_model()
+        # if (token.teacher_turn()):
+        #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=32, validation_split = 0.1, verbose=1)
+            
+        # if (token.student_turn()):
+        #     teacher.model.fit(x_batch, y_batch, epochs=10, steps_per_epoch=64, validation_split = 0.1, verbose=1)
+        #     predict_batch = teacher.model.predict(x_batch)
+        #     student.model.fit(x_batch, predict_batch, epochs=16, steps_per_epoch=128, validation_split = 0.1, verbose=1)
+            
+    teacher.save_model()
+    student.save_model()
     print('Training success, mdoel saved')
     
 if __name__ == "__main__":
