@@ -70,7 +70,7 @@ def main():
                 )
                 format_plot(
                     [teacher.format_history_by_key('acc')],
-                    save_name='teacher_train_accuracy.png',
+                    save_name='Teacher_train_accuracy.png',
                     title='Teacher_train_accuracy'
                 )
                 print('Iter (%s, %s)'.ljust(120, '-') % (circle, idx))
