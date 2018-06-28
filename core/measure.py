@@ -66,6 +66,12 @@ def format_plot_v2(
         xlabel = 'Epochs',
         ylabel = 'Accuracy'
         ):
+    def deafult_arr(arr, idx):
+        try:
+            return arr[idx]
+        catch Exception as err:
+            print(err)
+            return None
     if datas is None: raise Exception('Datas must given')
     if len(datas) > 4: raise Exception('4 data is the max')
     if save_name is None: raise Exception('Please give save name')
@@ -78,7 +84,7 @@ def format_plot_v2(
     styles = ['o', 's', '^', '*']
 
     for idx, data in enumerate(datas):
-        plt.plot(data, label=legends[idx] ,color = colors[idx], marker = styles[idx])
+        plt.plot(data, label=deafult_arr(legends, idx) ,color = colors[idx], marker = styles[idx])
         
     plt.legend(legends, loc = 'best')
     plt.legend(loc = 'best')
