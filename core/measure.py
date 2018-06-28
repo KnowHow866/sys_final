@@ -78,7 +78,7 @@ def format_plot_v2(
     styles = ['o', 's', '^', '*']
 
     for idx, data in enumerate(datas):
-        plt.plot(data, color = colors[idx], marker = styles[idx])
+        plt.plot(data, label=legends[idx] ,color = colors[idx], marker = styles[idx])
         
     plt.legend(legends, loc = 'best')
     plt.legend(loc = 'best')
