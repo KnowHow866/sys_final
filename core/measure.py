@@ -67,7 +67,7 @@ def format_plot_v2(
         ylabel = 'Accuracy'
         ):
     if datas is None: raise Exception('Datas must given')
-    if len(datas) > 3: raise Exception('3 data is the max')
+    if len(datas) > 4: raise Exception('4 data is the max')
     if save_name is None: raise Exception('Please give save name')
 
     plt.title(title)
