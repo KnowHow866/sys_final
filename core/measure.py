@@ -69,7 +69,7 @@ def format_plot_v2(
     def deafult_arr(arr, idx):
         try:
             return arr[idx]
-        catch Exception as err:
+        except Exception as err:
             print(err)
             return None
     if datas is None: raise Exception('Datas must given')
