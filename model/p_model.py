@@ -13,6 +13,7 @@ class Parent_model:
         self.model = model
         self.accuracy = [] # (batch_number_trained, evaulation)
         self.history = None
+        
         self.save_path = save_path
         self.tmp_path = '/'.join([save_path, 'tmp'])
         self.save_times = 0 # tmp save times
@@ -60,3 +61,14 @@ class Parent_model:
         # print('Now %s len: %s' % (key, len(self.history.history[key])))
         print(self.history.history[key])
         return self.history.history[key]
+
+    def save_match_teacher(self, record):
+        self.match_teacher.append(record)
+
+    def format_match_teacher(self, label = None):
+        if label is None: raise Exception('Please give label')
+        return {
+            'lable': label,
+            'x': [item[0] for item in self.match_teacher],
+            'y': [item[1] for item in self.match_teacher]
+        }

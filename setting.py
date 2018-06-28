@@ -71,10 +71,6 @@ Evaluate_record = {
     's2_acc': []
 }
 
-# Load model..................................
-load_model = None
-
-
 def dir_init():
     """To init dirs in setting.py """
     params = [

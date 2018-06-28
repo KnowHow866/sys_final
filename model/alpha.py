@@ -39,7 +39,7 @@ model.compile(loss='categorical_crossentropy',
         optimizer='adam',
         metrics=['accuracy'])
 
-class Alexnet(Parent_model):
+class Alpha(Parent_model):
     def __init__(self, save_path = None):
-        super(Alexnet, self).__init__(model, save_path)
-
+        super(Alpha, self).__init__(model, save_path)
+        
