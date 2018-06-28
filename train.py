@@ -22,8 +22,7 @@ from matplotlib import pyplot as plt
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
 from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, 
-                        find_prediction, draw_line_graph, format_plot, concat_history,
-                        format_plot_v2)
+                        find_prediction, format_plot, concat_history, format_plot_v2)
 from model.alpha import Alpha
 from model.beta import Beta
 import setting
