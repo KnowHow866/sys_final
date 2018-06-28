@@ -23,7 +23,7 @@ model = Sequential([
 
     Flatten(),
     Dropout(0.2, noise_shape=None, seed=None),
-    Dense(512, activation = 'relu'),
+    Dense(1024, activation = 'relu'),
     Dropout(0.2, noise_shape=None, seed=None),
     Dense(10, activation = 'softmax')
 ])
