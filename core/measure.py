@@ -73,15 +73,13 @@ def format_plot_v2(
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.legend(legends, loc = 'best')
 
-    labels = [data['lable'] for data in datas]
-    x = [data['x'] for data in datas]
-    y = [data['y'] for data in datas]
     colors = ['r', 'b', 'g', 'c']
     styles = ['o', 's', '^', '*']
 
     for idx, data in enumerate(datas):
-        plt.plot(data, label = labels[idx], color = colors[idx], marker = styles[idx])
+        plt.plot(data, color = colors[idx], marker = styles[idx])
 
     plt.legend(loc = 'best')
     plt.savefig('images/%s'  % save_name)
