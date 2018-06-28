@@ -21,7 +21,9 @@ from matplotlib import pyplot as plt
 # local module
 from core.data import (pickle_load, cifar_img_reshape, cifar_label_map, cifar_load, save_img)
 from core.debug import (log, msg)
-from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, find_prediction, draw_line_graph, format_plot, concat_history)
+from core.measure import (measure, calculate_accuracy, calculate_prediction_match_rate, 
+                        find_prediction, draw_line_graph, format_plot, concat_history,
+                        format_plot_v2)
 from model.alpha import Alpha
 from model.beta import Beta
 import setting
@@ -125,7 +127,7 @@ def main():
                 if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
                 else: Evaluate_record['s2_acc'].append(None)
 
-                format_plot(
+                format_plot_v2(
                     [Evaluate_record['t_acc'], Evaluate_record['s0_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
                     legends=['Teacher', 'Student_zero', 'Student', 'Student_second'],
                     save_name='Evaluate.png',

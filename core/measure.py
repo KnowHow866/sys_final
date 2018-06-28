@@ -58,10 +58,12 @@ def calculate_prediction_match_rate(student_pres = None, teacher_pres = None):
 
     return (prediction_correct / len(student_pres)) * 100
 
-def draw_line_graph(datas = None, 
+def format_plot_v2(
+        datas = None, 
         save_name = None, 
+        legends = [],
         title = 'Training accuarcy',
-        xlabel = 'Batch numbers',
+        xlabel = 'Epochs',
         ylabel = 'Accuracy'
         ):
     if datas is None: raise Exception('Datas must given')
@@ -75,11 +77,11 @@ def draw_line_graph(datas = None,
     labels = [data['lable'] for data in datas]
     x = [data['x'] for data in datas]
     y = [data['y'] for data in datas]
-    colors = ['r', 'b', 'g']
-    styles = ['o', 's', '^']
+    colors = ['r', 'b', 'g', 'c']
+    styles = ['o', 's', '^', '*']
 
-    for idx, label in enumerate(labels):
-        plt.plot(x[idx], y[idx], label = label, color = colors[idx], marker = styles[idx])
+    for idx, data in enumerate(datas):
+        plt.plot(data, label = labels[idx], color = colors[idx], marker = styles[idx])
 
     plt.legend(loc = 'best')
     plt.savefig('images/%s'  % save_name)
