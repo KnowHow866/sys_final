@@ -9,18 +9,28 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 # local module
 from model.alpha import Alpha
 from model.beta import Beta
+from model.gamma import Gamma
 # local module
 import setting
 
-print('Teacher model'.ljust(60, '.'))
+def split_line():
+    print('\n')
+    print(''.ljust(120, '*'))
+
 alpha = Alpha(save_path='%s/%s' % (dir_path, setting.teacher_save))
 alpha.model.summary()
 
-print(''.ljust(120, '*'))
+split_line()
 
-print('Student model'.ljust(60, '.'))
 beta = Beta(save_path='%s/%s' % (dir_path, setting.student_save))
 beta.model.summary()
+
+split_line()
+
+gamma = Gamma(save_path='%s/%s' % (dir_path, 'model/save/gamma'))
+gamma.model.summary()
+
+
 # backend analysis
 from tensorflow import keras as keras
 K = keras.backend

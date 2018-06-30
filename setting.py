@@ -15,7 +15,7 @@ images = 'images'
 
 # Training setting.............................
 batch_size = 16
-slice_number = 10
+slice_number = 100
 student_follow = True
 # student_follow: 
 #       After the number of batches teacher trained, student will use teachers output to train

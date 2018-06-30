@@ -25,6 +25,7 @@ from core.measure import (measure, calculate_accuracy, calculate_prediction_matc
                         find_prediction, format_plot, concat_history, format_plot_v2)
 from model.alpha import Alpha
 from model.beta import Beta
+from model.gamma import Gamma
 import setting
 
 def main():
@@ -53,11 +54,11 @@ def main():
     # training
     with tf.device('gpu:0'):
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
-        teacher = Beta(save_path='%s/%s' % (dir_path, setting.teacher_save))
+        teacher = Alpha(save_path='%s/%s' % (dir_path, setting.teacher_save))
 
-        student_zero = Alpha(save_path='%s/%s' % (dir_path, setting.student_save_zero))
-        student = Alpha(save_path='%s/%s' % (dir_path, setting.student_save))
-        student_second = Alpha(save_path='%s/%s' % (dir_path, setting.student_save_second))
+        student_zero = Gamma(save_path='%s/%s' % (dir_path, setting.student_save_zero))
+        student = Gamma(save_path='%s/%s' % (dir_path, setting.student_save))
+        student_second =Gamma(save_path='%s/%s' % (dir_path, setting.student_save_second))
         Evaluate_record = setting.Evaluate_record
         
         measure(teacher.model, 'Teacher')
@@ -115,16 +116,24 @@ def main():
                     )
 
                 # evaluate
+                def format_eval(name, acc):
+                    print(''.ljust(40, '-'))
+                    print('%s eval_acc: %s' % (name, acc))
+                    print()
+
                 _, t_acc = teacher.model.evaluate(x_test, y_test)
+                format_eval('Teacher', t_acc)
                 _, s0_acc = student_zero.model.evaluate(x_test, y_test)
+                format_eval('Student zero', t_acc)
                 _, s_acc = student.model.evaluate(x_test, y_test)
+                format_eval('Student', t_acc)
                 _, s2_acc = student_second.model.evaluate(x_test, y_test)
+                format_eval('Student Two', t_acc)
 
                 Evaluate_record['t_acc'].append(t_acc)
                 Evaluate_record['s0_acc'].append(s0_acc)
                 Evaluate_record['s_acc'].append(s_acc)
                 if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
-                else: Evaluate_record['s2_acc'].append(None)
 
                 format_plot_v2(
                     [Evaluate_record['t_acc'], Evaluate_record['s0_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
