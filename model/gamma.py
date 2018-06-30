@@ -38,6 +38,8 @@ def get_model():
     model.compile(loss='categorical_crossentropy',
             optimizer='adam',
             metrics=['accuracy'])
+    print('Gamma'.ljust(40, '.'))
+    print(model)
     return model
 
 class Gamma(Parent_model):

@@ -11,6 +11,10 @@
                 int 與 float 在 list 中佔用約 40 bytes
                 單獨佔用 28 與 32 bytes
 
+        2. model struture affect train result in high level
+
+        3. 3 class use same model, addr reference is same
+
 # evaluate
     1. loss
     2. model size
