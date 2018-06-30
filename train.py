@@ -82,6 +82,8 @@ def main():
                         title='Teacher_train_accuracy'
                     )
                 # student model but no teacher
+                    print(x_train_slice.shape)
+                    print(y_train_slice.shape)
                     student_zero.save_history(
                         student_zero.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
