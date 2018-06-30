@@ -24,7 +24,7 @@ def get_model():
 
         Flatten(),
         Dropout(0.2, noise_shape=None, seed=None),
-        Dense(50, activation = 'relu'),
+        Dense(32, activation = 'relu'),
         Dropout(0.2, noise_shape=None, seed=None),
         Dense(10, activation = 'softmax')
     ])
