@@ -36,5 +36,5 @@ def get_model():
 
 class Beta(Parent_model):
     def __init__(self, save_path = None):
-        super(Beta, self).__init__(get_model(), save_path)
+        super(Beta, self).__init__(get_model, save_path)
 

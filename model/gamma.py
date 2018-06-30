@@ -44,5 +44,5 @@ def get_model():
 
 class Gamma(Parent_model):
     def __init__(self, save_path = None):
-        super(Gamma, self).__init__(get_model(), save_path)
+        super(Gamma, self).__init__(get_model, save_path)
         

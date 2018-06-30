@@ -10,7 +10,7 @@ class Parent_model:
         if model is None: raise Exception('Model must given')
         if save_path is None: raise Exception('Save_path must given')
 
-        self.model = model
+        self.model = model()
         self.accuracy = [] # (batch_number_trained, evaulation)
         self.history = None
         
