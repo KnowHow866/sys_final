@@ -141,7 +141,7 @@ def main():
                 Evaluate_record['s0_acc'].append(s0_acc)
                 Evaluate_record['s_acc'].append(s_acc)
                 if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
-                else Evaluate_record['s2_acc'].append(0)
+                else: Evaluate_record['s2_acc'].append(0)
 
                 format_plot_v2(
                     [Evaluate_record['t_acc'], Evaluate_record['s0_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
