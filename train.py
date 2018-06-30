@@ -26,6 +26,7 @@ from core.measure import (measure, calculate_accuracy, calculate_prediction_matc
 from model.alpha import Alpha
 from model.beta import Beta
 from model.gamma import Gamma
+from model.theta import Theta
 import setting
 
 def main():
@@ -56,9 +57,9 @@ def main():
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         teacher = Alpha(save_path='%s/%s' % (dir_path, setting.teacher_save))
 
-        student_zero = Beta(save_path='%s/%s' % (dir_path, setting.student_save_zero))
-        student = Beta(save_path='%s/%s' % (dir_path, setting.student_save))
-        student_second = Beta(save_path='%s/%s' % (dir_path, setting.student_save_second))
+        student_zero = Theta(save_path='%s/%s' % (dir_path, setting.student_save_zero))
+        student = Theta(save_path='%s/%s' % (dir_path, setting.student_save))
+        student_second = Theta(save_path='%s/%s' % (dir_path, setting.student_save_second))
         Evaluate_record = setting.Evaluate_record
         
         measure(teacher.model, 'Teacher')

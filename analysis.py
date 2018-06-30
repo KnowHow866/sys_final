@@ -10,6 +10,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 from model.alpha import Alpha
 from model.beta import Beta
 from model.gamma import Gamma
+from model.theta import Theta
 # local module
 import setting
 
@@ -30,6 +31,9 @@ split_line()
 gamma = Gamma(save_path='%s/%s' % (dir_path, 'model/save/gamma'))
 gamma.model.summary()
 
+split_line()
+theta = Theta(save_path='%s/%s' % (dir_path, 'model/save/theta'))
+theta.model.summary()
 
 # backend analysis
 from tensorflow import keras as keras
