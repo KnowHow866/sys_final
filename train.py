@@ -122,19 +122,19 @@ def main():
                     print()
 
                 _, t_acc = teacher.model.evaluate(x_test, y_test)
-                print(teacher)
+                print(teacher.model)
                 format_eval('Teacher', t_acc)
                 
                 _, s0_acc = student_zero.model.evaluate(x_test, y_test)
-                print(student_zero)
+                print(student_zero.model)
                 format_eval('Student zero', t_acc)
                 
                 _, s_acc = student.model.evaluate(x_test, y_test)
-                print(student)
+                print(student.model)
                 format_eval('Student', t_acc)
                 
                 _, s2_acc = student_second.model.evaluate(x_test, y_test)
-                print(student_second)
+                print(student_second.model)
                 format_eval('Student Two', t_acc)
 
                 Evaluate_record['t_acc'].append(t_acc)
