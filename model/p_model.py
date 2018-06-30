@@ -24,6 +24,9 @@ class Parent_model:
         # test save
         self.model.save('%s/init.h5' % self.tmp_path)
 
+        print('Model init'.ljust(30, '*'))
+        print(self.model)
+
     def save_tmp(self):
         self.model.save('%s/tmp_%s.h5' % (self.tmp_path, self.save_times))
         self.save_times += 1
