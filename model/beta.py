@@ -18,13 +18,17 @@ import os
 def get_model():
     input_shape = (32, 32, 3)
     model = Sequential([
+        Conv2D(32, (3, 3), input_shape = input_shape, padding = 'same', activation = 'relu'),
+        Dropout(0.2, noise_shape=None, seed=None),
+        MaxPool2D(pool_size = (2, 2), strides = (2, 2)),
+
         Conv2D(64, (3, 3), input_shape = input_shape, padding = 'same', activation = 'relu'),
         Dropout(0.2, noise_shape=None, seed=None),
         MaxPool2D(pool_size = (2, 2), strides = (2, 2)),
 
         Flatten(),
         Dropout(0.2, noise_shape=None, seed=None),
-        Dense(1024, activation = 'relu'),
+        Dense(50, activation = 'relu'),
         Dropout(0.2, noise_shape=None, seed=None),
         Dense(10, activation = 'softmax')
     ])
