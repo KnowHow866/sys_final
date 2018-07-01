@@ -74,7 +74,7 @@ def main():
                 # teacher
                 if circle < 5:
                     teacher.save_history(
-                        teacher.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                        teacher.model.fit(x_train_slice, y_train_slice, epochs=15, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
                     format_plot(
                         [teacher.format_history_by_key('acc')],
