@@ -57,9 +57,9 @@ def main():
         save_as = '%s_%s.h5' % (random.randint(0,10000), datetime.now().strftime('%Y-%m-%d'))
         teacher = Alpha(save_path='%s/%s' % (dir_path, setting.teacher_save))
 
-        student_zero = Theta(save_path='%s/%s' % (dir_path, setting.student_save_zero))
-        student = Theta(save_path='%s/%s' % (dir_path, setting.student_save))
-        student_second = Theta(save_path='%s/%s' % (dir_path, setting.student_save_second))
+        student_zero = Beta(save_path='%s/%s' % (dir_path, setting.student_save_zero))
+        student = Beta(save_path='%s/%s' % (dir_path, setting.student_save))
+        student_second = Beta(save_path='%s/%s' % (dir_path, setting.student_save_second))
         Evaluate_record = setting.Evaluate_record
         
         measure(teacher.model, 'Teacher')
@@ -97,7 +97,7 @@ def main():
 
                 teacher_predictions = teacher.model.predict(x_train_slice)
                 # student follow to train
-                if setting.student_follow and circle < 3:
+                if setting.student_follow: # and circle < 3:
                     student.save_history(
                         student.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
@@ -146,7 +146,7 @@ def main():
                 if circle > 1: Evaluate_record['s2_acc'].append(s2_acc)
                 else: Evaluate_record['s2_acc'].append(0)
 
-                format_plot_v2(
+                format_plot(
                     [Evaluate_record['t_acc'], Evaluate_record['s0_acc'], Evaluate_record['s_acc'], Evaluate_record['s2_acc']],
                     legends=['Teacher', 'Student_zero', 'Student', 'Student_second'],
                     save_name='Evaluate.png',
