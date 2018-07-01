@@ -33,7 +33,7 @@ def get_model():
         Flatten(),
         Dropout(0.2, noise_shape=None, seed=None),
         Dense(1024, activation='relu'),
-        Dropout(0.2, noise_shape=None, seed=None),
+        Dropout(0.5, noise_shape=None, seed=None),
         Dense(10, activation='softmax')
     ])
     model.compile(loss='categorical_crossentropy',
