@@ -85,7 +85,7 @@ def main():
                     print(x_train_slice.shape)
                     print(y_train_slice.shape)
                     student_zero.save_history(
-                        student_zero.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                        student_zero.model.fit(x_train_slice, y_train_slice, epochs=15, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
                     format_plot(
                         [student_zero.format_history_by_key('acc')],
@@ -99,7 +99,7 @@ def main():
                 # student follow to train
                 if setting.student_follow: # and circle < 3:
                     student.save_history(
-                        student.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                        student.model.fit(x_train_slice, teacher_predictions, epochs=15, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
                     format_plot(
                         [student.format_history_by_key('acc')],
@@ -110,7 +110,7 @@ def main():
                 # student second
                 if circle > 4:
                     student_second.save_history(
-                        student_second.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
+                        student_second.model.fit(x_train_slice, teacher_predictions, epochs=15, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
                     format_plot(
                         [student_second.format_history_by_key('acc')],
