@@ -65,14 +65,14 @@ def main():
         measure(teacher.model, 'Teacher')
         measure(student, 'Student')
 
-        for circle in range(5):
+        for circle in range(10):
             iter_size = int(len(x_train) / setting.slice_number)
             for idx in range(setting.slice_number):
                 x_train_slice = x_train[idx*iter_size : (idx + 1)*iter_size]
                 y_train_slice = y_train[idx*iter_size : (idx + 1)*iter_size]
 
                 # teacher
-                if circle < 2:
+                if circle < 5:
                     teacher.save_history(
                         teacher.model.fit(x_train_slice, y_train_slice, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
@@ -108,7 +108,7 @@ def main():
                     )
 
                 # student second
-                if circle > 1:
+                if circle > 4:
                     student_second.save_history(
                         student_second.model.fit(x_train_slice, teacher_predictions, epochs=10, batch_size=setting.batch_size, validation_split = 0.1, verbose=1)
                     )
