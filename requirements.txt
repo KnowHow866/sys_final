@@ -122,7 +122,7 @@ requests==2.18.4
 s3transfer==0.1.12
 six==1.11.0
 tensorboard==1.8.0
-tensorflow==1.8.0
+tensorflow==1.15.2
 termcolor==1.1.0
 tinycss2==0.6.1
 urllib3==1.22
