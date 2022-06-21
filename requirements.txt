@@ -28,7 +28,7 @@ jmespath==0.9.3
 kiwisolver==1.0.1
 Markdown==2.6.11
 matplotlib==2.2.2
-numpy==1.14.3
+numpy==1.22.0
 Pillow==5.1.0
 protobuf==3.5.2.post1
 PyAutoGUI==0.9.36
