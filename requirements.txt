@@ -30,7 +30,7 @@ Markdown==2.6.11
 matplotlib==2.2.2
 numpy==1.14.3
 Pillow==5.1.0
-protobuf==3.5.2.post1
+protobuf==3.18.3
 PyAutoGUI==0.9.36
 pycparser==2.18
 PyMsgBox==1.0.6
